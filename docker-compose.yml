@@ -1,20 +1,13 @@
 db:
   image: postgres
   ports:
-    - 5432
+    - 5432:5432
+  env_file: .env
 app:
   build: .
   command: lein run
   ports:
     - "5001:5001"
-  volumes:
-    - .:/usr/src/clnote
-  links:
-    - db
-repl:
-  build: .
-  command: lein repl :headless :host 0.0.0.0 :port 7001
-  ports:
     - "7001:7001"
   volumes:
     - .:/usr/src/clnote

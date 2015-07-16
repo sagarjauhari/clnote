@@ -11,12 +11,6 @@ RUN lein deps
 # Add the entire project
 ADD . /usr/src/clnote
 
-# Run migrations
-# RUN lein run migrate
-
-# Don't build a broken image
-#RUN lein test
-
 # Expose a port for web app
 EXPOSE 5001
 
