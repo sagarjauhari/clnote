@@ -6,7 +6,8 @@
             [compojure.core :refer [defroutes GET POST]]
             [clnote.db.core :as db]
             [ring.util.http-response :refer [ok]]
-            [ring.util.response :refer [redirect]]))
+            [ring.util.response :refer [redirect]]
+            [taoensso.timbre :as timbre]))
 
 (defn validate-task [params]
   (first
@@ -34,7 +35,11 @@
   (layout/render "about.html"))
 
 (defroutes home-routes
-  (GET "/" request (home-page request))
-  (POST "/" request (create-task! request))
+  (GET "/" request
+       (timbre/info "Got request" request)
+       (home-page request))
+  (POST "/" request 
+        (timbre/info "Got request" request)
+        (create-task! request))
   (GET "/about" [] (about-page)))
 

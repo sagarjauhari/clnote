@@ -5,4 +5,72 @@
       Hello World
     </div>
   </div>
+
+
+  <div class="row">
+    <div class="span12">
+        <form method="POST" action="/">
+                {% csrf-field %}
+                <p>
+                    title:
+                    <input class="form-control"
+                           type="text"
+                           name="title"
+                           value="{{title}}" />
+                </p>
+                {% if errors.title %}
+                <div class="alert alert-danger">{{errors.title|join}}</div>
+                {% endif %}
+
+                <p>
+                    Rank:
+                    <input class="form-control"
+                           type="text"
+                           name="rank"
+                           value="{{rank}}" />
+                </p>
+                {% if errors.rank %}
+                <div class="alert alert-danger">{{errors.rank|join}}</div>
+                {% endif %}
+
+                <p>
+                    Completed:
+                    <input class="form-control"
+                           type="text"
+                           name="completed"
+                           value="{{completed}}" />
+                </p>
+                {% if errors.completed %}
+                <div class="alert alert-danger">{{errors.completed|join}}</div>
+                {% endif %}
+
+                <p>
+                    Description:
+                <textarea class="form-control"
+                          rows="4"
+                          cols="50"
+                          name="description">{{description}}</textarea>
+                </p>
+                {% if errors.description %}
+                <div class="alert alert-danger">{{errors.description|join}}</div>
+                {% endif %}
+                <input type="submit" class="btn btn-default" value="Save" />
+        </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span12">
+        <ul class="tasks">
+            {% for task in tasks %}
+            <li>
+                <p>{{task.title}}</p>
+                <p>{{task.description}}</p>
+                <p>{{task.completed}}</p>
+                <p>{{task.rank}}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
 {% endblock %}
