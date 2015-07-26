@@ -28,7 +28,7 @@
 
   :npm {:dependencies [[dragula "2.1.0"]]}
 
-  :min-lein-version "2.0.0"
+  :min-lein-version "2.5.1"
   :uberjar-name "clnote.jar"
   :jvm-opts ["-server"]
 
@@ -41,9 +41,8 @@
             [lein-npm "0.6.0"]]
   :profiles
   {:uberjar {:omit-source true
-             :env {:production true}
-             :aot :all}
-   :dev {:dependencies [[ring-mock "0.1.5"]
+             :env {:production true}}
+   :dev {:dependencies [[ring-mock "0.2.0"]
                         [ring/ring-devel "1.4.0"]
                         [pjstadig/humane-test-output "0.7.0"]
                         [org.clojure/tools.namespace "0.2.11"]
