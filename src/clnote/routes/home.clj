@@ -14,15 +14,16 @@
     (b/validate
       params
       :title [v/required [v/min-count 3]]
-      :completed v/required
-      :rank v/required)))
+      :completed [v/required v/boolean]
+      :rank [v/required v/number v/positive])))
 
 (defn create-task! [{:keys [params]}]
   (if-let [errors (validate-task params)]
     (-> (redirect "/")
         (assoc :flash (assoc params :errors errors)))
     (do
-      (db/create-task! (assoc params :timestamp (java.util.Date.)))
+      (timbre/info "params: " params)
+      (break (db/create-task! params))
       (redirect "/"))))
 
 (defn home-page [{:keys [flash]}]
@@ -36,10 +37,8 @@
 
 (defroutes home-routes
   (GET "/" request
-       (timbre/info "Got request" request)
        (home-page request))
   (POST "/" request 
-        (timbre/info "Got request" request)
         (create-task! request))
   (GET "/about" [] (about-page)))
 

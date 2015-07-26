@@ -26,6 +26,8 @@
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
                  [http-kit "2.1.19"]]
 
+  :npm {:dependencies [[dragula "2.1.0"]]}
+
   :min-lein-version "2.0.0"
   :uberjar-name "clnote.jar"
   :jvm-opts ["-server"]
@@ -35,14 +37,16 @@
 
   :plugins [[lein-environ "1.0.0"]
             [lein-ancient "0.6.5"]
-            [migratus-lein "0.1.5"]]
+            [migratus-lein "0.1.5"]
+            [lein-npm "0.6.0"]]
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}
              :aot :all}
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.4.0"]
-                        [pjstadig/humane-test-output "0.7.0"]]
+                        [pjstadig/humane-test-output "0.7.0"]
+                        [debugger "0.1.7"]]
          
          
          :repl-options {:init-ns clnote.core}
