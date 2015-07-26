@@ -46,9 +46,10 @@
    :dev {:dependencies [[ring-mock "0.1.5"]
                         [ring/ring-devel "1.4.0"]
                         [pjstadig/humane-test-output "0.7.0"]
+                        [org.clojure/tools.namespace "0.2.11"]
                         [debugger "0.1.7"]]
-         
-         
+
+         :source-paths ["dev"]
          :repl-options {:init-ns clnote.core}
          :injections [(require 'pjstadig.humane-test-output)
                       (pjstadig.humane-test-output/activate!)]

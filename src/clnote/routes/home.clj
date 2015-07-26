@@ -23,7 +23,7 @@
         (assoc :flash (assoc params :errors errors)))
     (do
       (timbre/info "params: " params)
-      (break (db/create-task! params))
+      (db/create-task! params)  
       (redirect "/"))))
 
 (defn home-page [{:keys [flash]}]
