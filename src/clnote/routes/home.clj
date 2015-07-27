@@ -45,11 +45,11 @@
       :rank [v/required v/number v/positive])))
 
 (defn create-task! [{:keys [params]}]
+  (timbre/info "params: " params)
   (if-let [errors (validate-task params)]
     (-> (redirect "/")
         (assoc :flash (assoc params :errors errors)))
     (do
-      (timbre/info "params: " params)
       (db/create-task! params)  
       (redirect "/"))))
 
@@ -66,7 +66,7 @@
   (GET "/" request
        (home-page request))
 
-  (POST "/" request 
+  (POST "/" [rank :<< as-int]
         (create-task! request))
 
   (GET "/about" []

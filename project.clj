@@ -9,7 +9,7 @@
                  [com.taoensso/tower "3.0.2"]
                  [markdown-clj "0.9.67"]
                  [environ "1.0.0"]
-                 [compojure "1.3.4"]
+                 [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [ring/ring-session-timeout "0.1.0"]
                  [ring "1.4.0"
@@ -28,6 +28,8 @@
 
   :npm {:dependencies [[dragula "2.1.0"]]}
 
+  ; :offline? true
+
   :min-lein-version "2.5.1"
   :uberjar-name "clnote.jar"
   :jvm-opts ["-server"]
@@ -42,11 +44,9 @@
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}}
-   :dev {:dependencies [[ring-mock "0.2.0"]
-                        [ring/ring-devel "1.4.0"]
+   :dev {:dependencies [[ring/ring-devel "1.4.0"]
                         [pjstadig/humane-test-output "0.7.0"]
-                        [org.clojure/tools.namespace "0.2.11"]
-                        [debugger "0.1.7"]]
+                        [org.clojure/tools.namespace "0.2.11"]]
 
          :source-paths ["dev"]
          :repl-options {:init-ns clnote.core}
