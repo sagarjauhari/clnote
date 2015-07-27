@@ -9,6 +9,33 @@
             [ring.util.response :refer [redirect]]
             [taoensso.timbre :as timbre]))
 
+
+
+(defn validate-message [params]
+  (first
+    (b/validate
+      params
+      :name v/required
+      :message [v/required [v/min-count 10]])))
+
+(defn save-message! [{:keys [params]}]
+  (if-let [errors (validate-message params)]
+    (-> (redirect "/guestbook")
+        (assoc :flash (assoc params :errors errors)))
+    (do
+      (db/save-message!
+        (assoc params :timestamp (java.util.Date.)))
+      (redirect "/guestbook"))))
+
+; (defn guestbook [{:keys [flash]}]
+;   (layout/render
+;     "guestbook.html"
+;    (merge {:messages (db/get-messages)}
+;           (select-keys flash [:name :message :errors]))))
+
+(defn guestbook []
+  (layout/render "guestbook.html"))
+
 (defn validate-task [params]
   (first
     (b/validate
@@ -40,5 +67,10 @@
        (home-page request))
   (POST "/" request 
         (create-task! request))
-  (GET "/about" [] (about-page)))
+  (GET "/about" []
+       (about-page)
 
+  (GET "/guestbook" request
+       (guestbook request)
+  (POST "/guestbook" request
+        (save-message! request)))))
