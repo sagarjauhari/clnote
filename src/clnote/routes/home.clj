@@ -27,14 +27,14 @@
         (assoc params :timestamp (java.util.Date.)))
       (redirect "/guestbook"))))
 
-; (defn guestbook [{:keys [flash]}]
-;   (layout/render
-;     "guestbook.html"
-;    (merge {:messages (db/get-messages)}
-;           (select-keys flash [:name :message :errors]))))
+(defn guestbook [{:keys [flash]}]
+  (layout/render
+    "guestbook.html"
+   (merge {:messages (db/get-messages)}
+          (select-keys flash [:name :message :errors]))))
 
-(defn guestbook []
-  (layout/render "guestbook.html"))
+; (defn guestbook [{:keys [flash]}]
+;   (layout/render "guestbook.html"))
 
 (defn validate-task [params]
   (first
@@ -65,12 +65,15 @@
 (defroutes home-routes
   (GET "/" request
        (home-page request))
+
   (POST "/" request 
         (create-task! request))
+
   (GET "/about" []
-       (about-page)
+       (about-page))
 
   (GET "/guestbook" request
-       (guestbook request)
+       (guestbook request))
+
   (POST "/guestbook" request
-        (save-message! request)))))
+       (save-message! request)))
