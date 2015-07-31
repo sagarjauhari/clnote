@@ -9,8 +9,6 @@
             [ring.util.response :refer [redirect]]
             [taoensso.timbre :as timbre]))
 
-
-
 (defn validate-message [params]
   (first
     (b/validate
@@ -33,9 +31,6 @@
    (merge {:messages (db/get-messages)}
           (select-keys flash [:name :message :errors]))))
 
-; (defn guestbook [{:keys [flash]}]
-;   (layout/render "guestbook.html"))
-
 (defn validate-task [params]
   (first
     (b/validate
@@ -45,13 +40,21 @@
       :rank [v/required v/number v/positive])))
 
 (defn create-task! [{:keys [params]}]
-  (timbre/info "params: " params)
-  (if-let [errors (validate-task params)]
-    (-> (redirect "/")
-        (assoc :flash (assoc params :errors errors)))
-    (do
-      (db/create-task! params)  
-      (redirect "/"))))
+  (timbre/info "pparams: " params)
+  ; TODO parse completed boolean
+  (let [{:keys [rank title description completed]} params]
+    (def pparams
+      {:rank (Integer/parseInt rank)
+       :title title
+       :completed completed
+       :description description})
+
+    (if-let [errors (validate-task pparams)]
+      (-> (redirect "/")
+          (assoc :flash (assoc pparams :errors errors)))
+      (do
+        (db/create-task! pparams)  
+        (redirect "/")))))
 
 (defn home-page [{:keys [flash]}]
   (layout/render
@@ -66,7 +69,7 @@
   (GET "/" request
        (home-page request))
 
-  (POST "/" [rank :<< as-int]
+  (POST "/" request
         (create-task! request))
 
   (GET "/about" []
