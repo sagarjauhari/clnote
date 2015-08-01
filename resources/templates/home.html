@@ -2,22 +2,26 @@
 {% block content %}
   <div class="row">
     <div class="span12">
-      Hello World
+      <h3>
+        My Tasks
+      </h3>
     </div>
   </div>
 
   <div class = "row">
     <div class="wrapper">
       <div id='left1' class="drag-container">
-        <div>A Task Title</div>
-        <div>B Task Title</div>
-        <div>C Task Title</div>
+        {% for task in tasks %}
+          <div>
+            <input type="checkbox" name="t" value="t"> {{task.title}}
+          </div>
+        {% endfor %}
       </div>
 
       <div id='right1' class="drag-container">
-        <div>P Task Title</div>
-        <div>Q Task Title</div>
-        <div>R Task Title</div>
+        <div> <input type="checkbox" name="t" value="t"> P Task Title</div>
+        <div> <input type="checkbox" name="t" value="t"> Q Task Title</div>
+        <div> <input type="checkbox" name="t" value="t"> R Task Title</div>
       </div>
     </div>
   </div>
@@ -71,21 +75,6 @@
           {% endif %}
           <input type="submit" class="btn btn-default" value="Save" />
         </form>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="span12">
-        <ul class="tasks">
-          {% for task in tasks %}
-          <li>
-            <p>{{task.title}}</p>
-            <p>{{task.description}}</p>
-            <p>{{task.completed}}</p>
-            <p>{{task.rank}}</p>
-          </li>
-          {% endfor %}
-        </ul>
     </div>
   </div>
 {% endblock %}
