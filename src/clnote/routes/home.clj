@@ -3,7 +3,7 @@
             [bouncer.validators :as v]
             [clnote.layout :as layout]
             [clojure.java.io :as io]
-            [compojure.core :refer [defroutes GET POST]]
+            [compojure.core :refer [defroutes GET POST DELETE]]
             [clnote.db.core :as db]
             [ring.util.http-response :refer [ok]]
             [ring.util.response :refer [redirect]]
@@ -39,6 +39,11 @@
       :title [v/required [v/min-count 3]]
       :completed [v/required v/boolean]
       :rank [v/required v/number v/positive])))
+
+; TODO Test method if it works
+(defn delete-task! [{:keys [params]}]
+  (timbre/info "params: " params)
+  (db/delete-task! params))
 
 (defn create-task! [{:keys [params]}]
   (timbre/info "params: " params)
