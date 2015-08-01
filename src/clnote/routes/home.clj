@@ -47,8 +47,8 @@
       {:__anti-forgery-token __anti-forgery-token
        :title title
        :description description
-       :completed (Boolean/valueOf completed)
-       :rank (Integer/parseInt rank)})
+       :completed (Boolean/valueOf (if completed completed "false"))
+       :rank (Integer/parseInt (if rank rank "1"))})
 
     (if-let [errors (validate-task pparams)]
       (-> (redirect "/")
