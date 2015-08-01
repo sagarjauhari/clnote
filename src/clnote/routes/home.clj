@@ -78,6 +78,9 @@
   (POST "/" request
         (create-task! request))
 
+  (DELETE "/" request
+        (delete-task! request))
+
   (GET "/about" []
        (about-page))
 

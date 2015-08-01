@@ -5,6 +5,15 @@ body {
     padding-top: 40px;
 }
 
+/* home page styling */
+.task-box {
+}
+
+.task-delete-link {
+  position: absolute;
+  right: 35px;
+}
+
 /* dragula-specific example page styles */
 .drag-wrapper {
 }
