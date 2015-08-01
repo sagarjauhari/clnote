@@ -1,5 +1,5 @@
 CREATE TABLE tasks
-(id VARCHAR(20) PRIMARY KEY,
+(id SERIAL PRIMARY KEY,
  title VARCHAR(30),
  description VARCHAR(100),
  completed BOOLEAN,

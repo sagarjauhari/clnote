@@ -22,8 +22,14 @@ SELECT * from users
 -- name: create-task!
 -- creates a new task record
 INSERT INTO tasks
-(id, title, description, completed, rank)
-VALUES (id, title, description, completed, rank)
+(title, description, completed, rank)
+VALUES (:title, :description, :completed, :rank)
+
+-- name: save-message!
+-- creates a new message
+INSERT INTO guestbook
+(name, message, timestamp)
+VALUES (:name, :message, :timestamp)
 
 -- name: update-task!
 -- update an existing task record
@@ -37,16 +43,10 @@ WHERE id = :id
 SELECT * FROM tasks
 WHERE id = :id
 
---name: get-tasks
+-- name: get-tasks
 -- selects all available tasks
 SELECT * from tasks
 
---name:save-message!
--- creates a new message
-INSERT INTO guestbook
-(name, message, timestamp)
-VALUES (:name, :message, :timestamp)
-
---name:get-messages
+-- name: get-messages
 -- selects all available messages
 SELECT * from guestbook

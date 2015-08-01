@@ -21,6 +21,7 @@
     (-> (redirect "/guestbook")
         (assoc :flash (assoc params :errors errors)))
     (do
+      (timbre/info (assoc params :timestamp (java.util.Date.)))
       (db/save-message!
         (assoc params :timestamp (java.util.Date.)))
       (redirect "/guestbook"))))
@@ -40,14 +41,14 @@
       :rank [v/required v/number v/positive])))
 
 (defn create-task! [{:keys [params]}]
-  (timbre/info "pparams: " params)
-  ; TODO parse completed boolean
-  (let [{:keys [rank title description completed]} params]
+  (timbre/info "params: " params)
+  (let [{:keys [rank title description completed __anti-forgery-token]} params]
     (def pparams
-      {:rank (Integer/parseInt rank)
+      {:__anti-forgery-token __anti-forgery-token
        :title title
-       :completed completed
-       :description description})
+       :description description
+       :completed (Boolean/valueOf completed)
+       :rank (Integer/parseInt rank)})
 
     (if-let [errors (validate-task pparams)]
       (-> (redirect "/")
