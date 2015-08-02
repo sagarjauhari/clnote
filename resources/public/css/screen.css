@@ -6,9 +6,6 @@ body {
 }
 
 /* home page styling */
-.task-box {
-}
-
 .task-delete-link {
   position: absolute;
   right: 35px;
@@ -19,17 +16,25 @@ body {
 }
 
 .drag-container {
-  background-color: rgba(255, 255, 255, 0.5);
-}
-.drag-container:nth-child(odd) {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/*
- * note that styling gu-mirror directly is a bad practice because it's too generic.
- * you're better off giving the draggable elements a unique class and styling that directly!
- */
-.drag-container div,
+.drag-container .task-box {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.09);
+  transition: opacity 0.4s ease-in-out;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.drag-container .completed-false {
+  background-color: yellowgreen;
+}
+
+/* Styling of element being dragged */
 .gu-mirror {
   margin: 10px;
   padding: 10px;
@@ -40,6 +45,7 @@ body {
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
+
 .gu-unselectable {
   cursor: grabbing;
   cursor: -moz-grabbing;
