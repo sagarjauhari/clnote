@@ -59,6 +59,7 @@
         <div id='left1' class="drag-container">
           {% for task in tasks.1 %}
             <div class = "task-box completed-{{task.completed}}">
+              <span class='handle'>+</span>
               <input type="checkbox" name="t" value="t"> {{task.title}}
               <a class = "task-delete-link" href="#">
                 <i class="fa fa-times"></i>

@@ -24,10 +24,6 @@ body {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.09);
   transition: opacity 0.4s ease-in-out;
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
 }
 
 .drag-container .completed-false {
@@ -40,26 +36,19 @@ body {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.09);
   transition: opacity 0.4s ease-in-out;
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
 }
 
-.gu-unselectable {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
-}
 .container .ex-moved {
   background-color: #e74c3c;
 }
+
 .container.ex-over {
   background-color: rgba(255, 255, 255, 0.2);
 }
+
 .handle {
   padding: 0 5px;
   margin-right: 5px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.2);
   cursor: move;
 }
