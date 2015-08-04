@@ -11,5 +11,4 @@
       :rank [v/required v/number v/positive])))
 
 (defn group-tasks-by-rank [tasks]
-  
-  )
+  (group-by #(:rank %) tasks))

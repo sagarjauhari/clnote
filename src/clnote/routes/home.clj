@@ -35,7 +35,7 @@
   (let [tasks (db/get-tasks)] 
     (layout/render
       "home.html"
-      (merge {:tasks tasks}
+      (merge {:tasks (group-tasks-by-rank tasks)}
         (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defn about-page []
