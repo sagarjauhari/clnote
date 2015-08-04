@@ -19,16 +19,6 @@ WHERE id = :id
 -- selects all available users
 SELECT * from users
 
--- name: save-message!
--- creates a new message
-INSERT INTO guestbook
-(name, message, timestamp)
-VALUES (:name, :message, :timestamp)
-
--- name: get-messages
--- selects all available messages
-SELECT * from guestbook
-
 -- name: create-task!
 -- creates a new task record
 INSERT INTO tasks
