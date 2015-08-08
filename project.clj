@@ -7,6 +7,7 @@
                  [selmer "0.8.2"]
                  [com.taoensso/timbre "4.0.2"]
                  [com.taoensso/tower "3.0.2"]
+                 [hiccup "1.0.5"]
                  [markdown-clj "0.9.67"]
                  [environ "1.0.0"]
                  [compojure "1.4.0"]

@@ -4,8 +4,11 @@
             [clnote.layout :as layout]
             [clnote.controllers.task :refer :all]
             [clojure.java.io :as io]
-            [compojure.core :refer [defroutes GET POST DELETE]]
+            [compojure.core :refer [defroutes GET POST DELETE ANY]]
+            [compojure.route :as route]
             [clnote.db.core :as db]
+            [clnote.views.layout :as hic-layout]
+            [clnote.views.contents :as contents]
             [ring.util.http-response :refer [ok]]
             [ring.util.response :refer [redirect]]
             [taoensso.timbre :as timbre]))
@@ -52,4 +55,7 @@
         (delete-task! request))
 
   (GET "/about" []
-       (about-page)))
+       (about-page))
+
+  (route/resources "templates")
+  (ANY "*" [] (route/not-found (hic-layout/application "Page Not Found" (contents/not-found)))))
