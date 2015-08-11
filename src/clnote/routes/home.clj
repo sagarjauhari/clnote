@@ -44,7 +44,7 @@
 (defn about-page []
   (layout/render "about.html"))
 
-(defroutes home-routes
+(defroutes app-routes
   (GET "/" request
        (home-page request))
 

@@ -1,6 +1,6 @@
 (ns clnote.handler
   (:require [compojure.core :refer [defroutes routes wrap-routes]]
-            [clnote.routes.home :refer [home-routes]]
+            [clnote.routes.home :refer [app-routes]]
             [clnote.middleware :as middleware]
             [clnote.session :as session]
             [compojure.route :as route]
@@ -66,7 +66,7 @@
 
 (def app-base
   (routes
-    (wrap-routes #'home-routes middleware/wrap-csrf)
+    (wrap-routes #'app-routes middleware/wrap-csrf)
     #'base-routes))
 
 (def app (middleware/wrap-base #'app-base))
