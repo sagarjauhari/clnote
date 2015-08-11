@@ -57,5 +57,6 @@
   (GET "/about" []
        (about-page))
 
-  (route/resources "templates")
-  (ANY "*" [] (route/not-found (hic-layout/application "Page Not Found" (contents/not-found)))))
+  (ANY "*" []
+    (route/not-found
+      (hic-layout/application "Page Not Found" (contents/not-found)))))

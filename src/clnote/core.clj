@@ -14,9 +14,7 @@
 (defn start-server [port]
   (init)
   (reset! server
-          (http-kit/run-server
-            app
-            {:port port})))
+          (http-kit/run-server app {:port port})))
 
 (defn stop-server []
   (when @server
@@ -35,3 +33,7 @@
     (some #{"migrate" "rollback"} args) (migrations/migrate args)
     :else (start-app args)))
   
+(defn handler [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "Hello Worldddd"})

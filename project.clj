@@ -13,8 +13,7 @@
                  [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [ring/ring-session-timeout "0.1.0"]
-                 [ring "1.4.0"
-                  :exclusions [ring/ring-jetty-adapter]]
+                 [ring "1.4.0"]
                  [metosin/ring-middleware-format "0.6.0"]
                  [metosin/ring-http-response "0.6.3"]
                  [bouncer "0.3.3"]
@@ -41,7 +40,10 @@
   :plugins [[lein-environ "1.0.0"]
             [lein-ancient "0.6.5"]
             [migratus-lein "0.1.5"]
-            [lein-npm "0.6.0"]]
+            [lein-npm "0.6.0"]
+            [lein-ring "0.9.6"]]
+  :ring  {:handler clnote.core/handler}
+
   :profiles
   {:uberjar {:omit-source true
              :env {:production true}}
