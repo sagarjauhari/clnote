@@ -42,7 +42,7 @@
             [migratus-lein "0.1.5"]
             [lein-npm "0.6.0"]
             [lein-ring "0.9.6"]]
-  :ring  {:handler clnote.core/handler}
+  :ring  {:handler clnote.handler/app}
 
   :profiles
   {:uberjar {:omit-source true

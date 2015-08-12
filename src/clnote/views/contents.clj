@@ -10,4 +10,4 @@
   [:div
     [:h1 {:class "info-worning"} "Page Not Found"]
     [:p "There's no requested page"]
-    (link-to {:class "btn btn-default"} "/" "Take me to Home")])
+    (link-to {:class "btn btn-primary"} "/" "Take me to Home")])

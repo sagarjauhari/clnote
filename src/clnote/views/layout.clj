@@ -5,8 +5,10 @@
   (html5 {:lang "en"}
          [:head
           [:title title]
-          (include-css "//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css")
-          (include-js "js/ui-bootstrap-tpls-0.7.0.min.js")
+          (include-css "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+
+          (include-js "//code.jquery.com/jquery-2.1.1.min.js")
+          (include-js "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
           (include-js "js/script.js")
 
           [:body
