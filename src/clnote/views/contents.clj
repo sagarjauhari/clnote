@@ -9,5 +9,5 @@
 (defn not-found []
   [:div
     [:h1 {:class "info-worning"} "Page Not Found"]
-    [:p "There's no requested page"]
+    [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/" "Take me to Home")])

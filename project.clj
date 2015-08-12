@@ -42,7 +42,11 @@
             [migratus-lein "0.1.5"]
             [lein-npm "0.6.0"]
             [lein-ring "0.9.6"]]
-  :ring  {:handler clnote.handler/app}
+
+  :ring  {:handler clnote.handler/app
+          :port 5001
+          :nrepl {:start? true
+                  :port 7001}}
 
   :profiles
   {:uberjar {:omit-source true
