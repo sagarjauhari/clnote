@@ -26,7 +26,4 @@
              [:a {:href "/"} "Home"] ]  
             [:li
              [:a {:href "about"} "About"]]]]]]
-
-          [:div {:class "container"} "Hello world" ]
-
            [:div {:class "container"} content ]]]))

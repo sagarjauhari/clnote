@@ -11,3 +11,6 @@
     [:h1 "Page Not Found"]
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/" "Take me to Home")])
+
+(defn about []
+  [:p "This awesome app was created in August 2015"])

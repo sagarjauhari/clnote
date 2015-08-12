@@ -55,7 +55,7 @@
         (delete-task! request))
 
   (GET "/about" []
-       (about-page))
+       (hic-layout/application "About CLnote" (contents/about)))
 
   (ANY "*" []
     (route/not-found
