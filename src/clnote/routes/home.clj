@@ -41,10 +41,17 @@
       (merge {:tasks (group-tasks-by-rank tasks)}
         (select-keys flash [:title :description :completed :rank :errors])))))
 
+(defn tasks-page [{:keys [flash]}]
+  (hic-layout/application
+    "Tasks"
+    (contents/tasks (merge {:tasks (db/get-tasks)}
+      (select-keys flash [:title :description :completed :rank :errors])))))
+
 (defn about-page []
   (layout/render "about.html"))
 
 (defroutes app-routes
+  ; TODO redirect to tasks page
   (GET "/" request
        (home-page request))
 
@@ -56,6 +63,9 @@
 
   (GET "/about" []
        (hic-layout/application "About CLnote" (contents/about)))
+
+  (GET "/tasks" request
+       (tasks-page request))
 
   (ANY "*" []
     (route/not-found
