@@ -22,8 +22,8 @@
     [:div.row
       [:div.span12 [:h3 "My Tasks"]]
 
+      ; Add task
       [:div.row
-        ; Add task
         [:div.col-md-3
           [:form {:method "POST", :action "/tasks"}  
             [:div.input-group
@@ -36,23 +36,23 @@
         (if-not (nil? errors)
           [:span.help-inline (errors :title)])]
 
+      ; Task columns
       [:div.row
         [:div.drag-wrapper
           [:div.col-md-3
-            [:div#left1.drag-container
+            [:div#left1.drag-container.list-group
               (map (fn [task]
-                [:div {:class (str "task-box completed-" (task :completed))}
+                [:div {:class (str "list-group-item completed-" (task :completed))}
                   [:span.handle "+"]
-                  [:input {:type "checkbox" :name "t" :value "t"} (task :title)]
-                  [:a.task-delete-link {:href "#"}
-                    [:i.fa.fa-times]]])
+                  (check-box {:value "t"} "completed" (task :completed) "completed" ) (task :title)
+                  ])
                       (filter #(= (% :rank) 1) tasks))]]
+
           [:div.col-md-3
-            [:div#right1.drag-container
+            [:div#right1.drag-container.list-group
               (map (fn [task]
-                [:div {:class (str "task-box completed-" (task :completed))}
+                [:div {:class (str "list-group-item completed-" (task :completed))}
                   [:span.handle "+"]
-                  [:input {:type "checkbox" :name "t" :value "t"} (task :title)]
-                  [:a.task-delete-link {:href "#"}
-                    [:i.fa.fa-times]]])
+                  (check-box {:value "t"} "completed" (task :completed) "completed" ) (task :title)
+                  ])
                       (filter #(= (% :rank) 2) tasks))]]]]]))
