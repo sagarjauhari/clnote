@@ -15,6 +15,14 @@
 (defn about []
   [:p "This awesome app was created in August 2015"])
 
+(defn task-items [tasks rank]
+  (map (fn [task]
+    [:div {:class (str "list-group-item task-box completed-" (task :completed))}
+      [:span.handle "+"]
+      (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
+      (task :title)])
+   (filter #(= (% :rank) rank) tasks)))
+
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
     [:div.row
@@ -38,20 +46,8 @@
       [:div.row
         [:div.drag-wrapper
           [:div.col-md-3
-            [:div#left1.drag-container.list-group
-              (map (fn [task]
-                    [:div {:class (str "list-group-item completed-" (task :completed))}
-                      [:span.handle "+"]
-                      (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
-                      (task :title)])
-                   (filter #(= (% :rank) 1) tasks))]]
+            [:div#left1.drag-container.list-group (task-items tasks 1)]]
 
           [:div.col-md-3
-            [:div#right1.drag-container.list-group
-              (map (fn [task]
-                [:div {:class (str "list-group-item completed-" (task :completed))}
-                  [:span.handle "+"]
-                  (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
-                   (task :title)
-                  ])
-                      (filter #(= (% :rank) 2) tasks))]]]]]))
+            [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]))
+
