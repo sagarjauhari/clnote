@@ -4,7 +4,7 @@
             [clnote.layout :as layout]
             [clnote.controllers.task :refer :all]
             [clojure.java.io :as io]
-            [compojure.core :refer [defroutes GET POST DELETE ANY]]
+            [compojure.core :refer [defroutes context ANY DELETE GET POST PUT]]
             [compojure.route :as route]
             [clnote.db.core :as db]
             [clnote.views.layout :as hic-layout]
@@ -17,8 +17,15 @@
 (defn delete-task! [{:keys [params]}]
   (db/delete-task! params))
 
+(defn update-task [{:keys [params]}]
+  (def pparams
+    {:id (Integer/parseInt (params :id))
+     :completed (Boolean/valueOf(params :completed))})
+  (timbre/info "update-task pparams: " pparams)
+  (db/update-task-completed! pparams))
+
 (defn create-task! [{:keys [params]}]
-  (timbre/info "params: " params)
+  (timbre/info "create-task params: " params)
   (let [{:keys [rank title description completed __anti-forgery-token]} params]
     (def pparams
       {:__anti-forgery-token __anti-forgery-token
@@ -52,23 +59,19 @@
 
 (defroutes app-routes
   ; TODO redirect to tasks page
-  (GET "/" request
-       (home-page request))
+  (GET "/" request (home-page request))
+  (DELETE "/" request (delete-task! request))
+  (POST "/" request (create-task! request))
 
-  (POST "/" request
-        (create-task! request))
+  (context "/tasks" [] (defroutes tasks-routes
+    (GET "/" request (tasks-page request))
+    (POST "/" request (create-task! request))
 
-  (POST "/tasks" request
-        (create-task! request))
-
-  (DELETE "/" request
-        (delete-task! request))
+    (context "/:id" [id] (defroutes task-routes
+      (PUT "/" request (update-task request))))))
 
   (GET "/about" []
        (hic-layout/application "About CLnote" (contents/about)))
-
-  (GET "/tasks" request
-       (tasks-page request))
 
   (ANY "*" []
     (route/not-found

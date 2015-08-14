@@ -32,6 +32,12 @@ SET title = :title, description = :description, completed = :completed,
   rank = :rank
 WHERE id = :id
 
+-- name: update-task-completed!
+-- update an existing task record
+UPDATE tasks
+SET completed = :completed
+WHERE id = :id
+
 -- name: get-task
 -- retrieve a task given the id
 SELECT * FROM tasks

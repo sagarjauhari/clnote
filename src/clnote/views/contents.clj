@@ -10,7 +10,7 @@
   [:div
     [:h1 "Page Not Found"]
     [:p "The requested page does not exist."]
-    (link-to {:class "btn btn-primary"} "/" "Take me to Home")])
+    (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
 (defn about []
   [:p "This awesome app was created in August 2015"])
@@ -19,7 +19,7 @@
   (map (fn [task]
     [:div {:class (str "list-group-item task-box completed-" (task :completed))}
       [:span.handle "+"]
-      (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
+      (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
       (task :title)])
    (filter #(= (% :rank) rank) tasks)))
 
