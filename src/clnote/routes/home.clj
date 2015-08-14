@@ -28,11 +28,11 @@
        :rank (Integer/parseInt (if rank rank "1"))})
 
     (if-let [errors (validate-task pparams)]
-      (-> (redirect "/")
+      (-> (redirect "/tasks")
           (assoc :flash (assoc pparams :errors errors)))
       (do
         (db/create-task! pparams)  
-        (redirect "/")))))
+        (redirect "/tasks")))))
 
 (defn home-page [{:keys [flash]}]
   (let [tasks (db/get-tasks)] 
@@ -56,6 +56,9 @@
        (home-page request))
 
   (POST "/" request
+        (create-task! request))
+
+  (POST "/tasks" request
         (create-task! request))
 
   (DELETE "/" request

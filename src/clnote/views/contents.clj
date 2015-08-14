@@ -1,4 +1,5 @@
 (ns clnote.views.contents
+  (:require [taoensso.timbre :as timbre])
   (:use [hiccup.form]
         [hiccup.element :only (link-to)]))
 
@@ -15,22 +16,25 @@
 (defn about []
   [:p "This awesome app was created in August 2015"])
 
-; TODO Error handling
 (defn tasks [data]
-  (let [tasks (data :tasks)]
+  (let [tasks (data :tasks) errors (data :errors)]
+    (timbre/info "params: " data)
     [:div.row
       [:div.span12 [:h3 "My Tasks"]]
 
       [:div.row
         ; Add task
         [:div.col-md-3
-          [:form {:method "POST", :action "/"}  
+          [:form {:method "POST", :action "/tasks"}  
             [:div.input-group
               (text-field {:class "form-control", :placeholder "Add a task"} "title")
               [:span.input-group-btn
                 [:button.btn.btn-default {:type "submit", :value "+"}
                   [:i.fa.fa-plus]]]
-              [:input {:type "hidden", :name "rank", :value "1"}]]]]]
+              [:input {:type "hidden", :name "rank", :value "1"}]]]]
+        ; Validation errors
+        (if-not (nil? errors)
+          [:span.help-inline (errors :title)])]
 
       [:div.row
         [:div.drag-wrapper
