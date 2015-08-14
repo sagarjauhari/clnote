@@ -1,5 +1,4 @@
 (ns clnote.views.contents
-  (:require [taoensso.timbre :as timbre])
   (:use [hiccup.form]
         [hiccup.element :only (link-to)]))
 
@@ -18,7 +17,6 @@
 
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
-    (timbre/info "params: " data)
     [:div.row
       [:div.span12 [:h3 "My Tasks"]]
 
@@ -42,17 +40,18 @@
           [:div.col-md-3
             [:div#left1.drag-container.list-group
               (map (fn [task]
-                [:div {:class (str "list-group-item completed-" (task :completed))}
-                  [:span.handle "+"]
-                  (check-box {:value "t"} "completed" (task :completed) "completed" ) (task :title)
-                  ])
-                      (filter #(= (% :rank) 1) tasks))]]
+                    [:div {:class (str "list-group-item completed-" (task :completed))}
+                      [:span.handle "+"]
+                      (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
+                      (task :title)])
+                   (filter #(= (% :rank) 1) tasks))]]
 
           [:div.col-md-3
             [:div#right1.drag-container.list-group
               (map (fn [task]
                 [:div {:class (str "list-group-item completed-" (task :completed))}
                   [:span.handle "+"]
-                  (check-box {:value "t"} "completed" (task :completed) "completed" ) (task :title)
+                  (check-box {:class "task-checkbox"} "completed" (task :completed) "completed")
+                   (task :title)
                   ])
                       (filter #(= (% :rank) 2) tasks))]]]]]))
