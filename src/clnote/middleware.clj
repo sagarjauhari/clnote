@@ -9,7 +9,6 @@
             [ring.util.response :refer [redirect]]
             [ring.middleware.reload :as reload]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.session-timeout :refer [wrap-idle-session-timeout]]
             [ring.middleware.session.memory :refer [memory-store]]
             [ring.middleware.format :refer [wrap-restful-format]]))
@@ -43,8 +42,7 @@
         wrap-exceptions)
     handler))
 
-(defn wrap-csrf [handler]
-  (wrap-anti-forgery handler))
+(defn wrap-csrf [handler] handler)
 
 (defn wrap-formats [handler]
   (wrap-restful-format handler :formats [:json-kw :transit-json :transit-msgpack]))

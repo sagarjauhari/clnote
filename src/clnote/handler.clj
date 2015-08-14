@@ -65,8 +65,6 @@
   (timbre/info "shutdown complete!"))
 
 (def app-base
-  (routes
-    (wrap-routes #'app-routes middleware/wrap-csrf)
-    #'base-routes))
+  (routes (wrap-routes #'app-routes middleware/wrap-csrf) #'base-routes))
 
 (def app (middleware/wrap-base #'app-base))

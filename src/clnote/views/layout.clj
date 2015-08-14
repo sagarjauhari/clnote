@@ -17,6 +17,7 @@
       (include-js "//cdnjs.cloudflare.com/ajax/libs/dragula/3.0.3/dragula.min.js")
       (include-js "js/drag-drop.js")]
 
+      ; TODO nav bar item activate home, about
       [:body
         [:div {:class "navbar navbar-inverse navbar-fixed-top"}  
          [:div {:class "container"}  
@@ -25,7 +26,7 @@
           [:div {:class "navbar-collapse collapse "}  
            [:ul {:class "nav navbar-nav"}  
             [:li
-             [:a {:href "/"} "Home"] ]  
+             [:a {:href "/tasks"} "Tasks"] ]  
             [:li
              [:a {:href "about"} "About"]]]]]]
            [:div {:class "container"} content]]))
