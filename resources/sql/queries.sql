@@ -32,8 +32,14 @@ SET title = :title, description = :description, completed = :completed,
   rank = :rank
 WHERE id = :id
 
+-- name: update-task-archived!
+-- update an existing task record and set archived variable
+UPDATE tasks
+SET archived = :archived
+WHERE id = :id
+
 -- name: update-task-completed!
--- update an existing task record
+-- update an existing task record and set completed variable
 UPDATE tasks
 SET completed = :completed
 WHERE id = :id

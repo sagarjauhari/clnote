@@ -25,27 +25,25 @@
 
 (defn new-task-form [errors]
   [:div
-  [:form {:method "POST", :action "/tasks"}  
-                [:div.input-group
-                  (text-field {:class "form-control", :placeholder "Add a task"} "title")
-                  [:span.input-group-btn
-                    [:button.btn.btn-default {:type "submit", :value "+"}
-                      [:i.fa.fa-plus]]]
-                  [:input {:type "hidden", :name "rank", :value "1"}]]]
-  (if-not (nil? errors)
-            [:span.help-inline (errors :title)])])
+    [:form {:method "POST", :action "/tasks"}  
+      [:div.input-group
+        (text-field {:class "form-control", :placeholder "Add a task"} "title")
+        [:span.input-group-btn
+          [:button.btn.btn-default {:type "submit", :value "+"}
+            [:i.fa.fa-plus]]]]
+        [:input {:type "hidden", :name "rank", :value "1"}]]
+    (if-not (nil? errors)
+              [:span.help-inline (errors :title)])])
 
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
     [:div.panel
-      [:div.panel-heading "My Tasks"]
       [:div.panel-body
         [:div.row
           [:div.drag-wrapper
             [:div.col-md-3
               (new-task-form errors)
               [:div#left1.drag-container.list-group (task-items tasks 1)]]
-
             [:div.col-md-3
               [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]]))
 
