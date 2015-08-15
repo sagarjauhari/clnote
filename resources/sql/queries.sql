@@ -45,7 +45,7 @@ WHERE id = :id
 
 -- name: get-tasks
 -- selects all available tasks
-SELECT * from tasks
+SELECT * from tasks ORDER BY id DESC
 
 -- name: delete-task!
 -- deletes a task

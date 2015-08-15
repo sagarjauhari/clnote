@@ -5,7 +5,7 @@ db:
   env_file: .env
 app:
   build: .
-  command: lein ring server-headles
+  command: lein ring server-headless
   ports:
     - "5001:5001"
     - "7001:7001"

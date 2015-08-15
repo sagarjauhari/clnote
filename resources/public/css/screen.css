@@ -23,10 +23,11 @@ body {
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.09);
   transition: opacity 0.4s ease-in-out;
+  background-color: yellowgreen;
 }
 
-.drag-container .completed-false {
-  background-color: yellowgreen;
+.drag-container .completed-true {
+  background-color: lightgray;
 }
 
 /* Styling of element being dragged */

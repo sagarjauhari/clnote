@@ -21,11 +21,10 @@
   (def pparams
     {:id (Integer/parseInt (params :id))
      :completed (Boolean/valueOf(params :completed))})
-  (timbre/info "update-task pparams: " pparams)
-  (db/update-task-completed! pparams))
+  (db/update-task-completed! pparams)
+  (str "Task updated"))
 
 (defn create-task! [{:keys [params]}]
-  (timbre/info "create-task params: " params)
   (let [{:keys [rank title description completed __anti-forgery-token]} params]
     (def pparams
       {:__anti-forgery-token __anti-forgery-token

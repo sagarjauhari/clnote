@@ -17,7 +17,7 @@
 
 (defn task-items [tasks rank]
   (map (fn [task]
-    [:div {:class (str "list-group-item task-box completed-" (task :completed))}
+    [:div {:class (str "list-group-item task-box " (if (task :completed) "completed-true"))}
       [:span.handle "+"]
       (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
       (task :title)])

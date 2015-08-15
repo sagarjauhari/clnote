@@ -1,7 +1,6 @@
 $(document).ready(function() {
   _.each($(".task-checkbox"), function(cb){
     cb.onclick = function(){
-      //Post request to update task with cb.checked as value of completed
       var url = "/tasks/" + cb.value
       $.ajax({
         url: url,
@@ -11,8 +10,20 @@ $(document).ready(function() {
           completed: cb.checked
         },
         success: function(result) {
-          // Update checkbox
-          true;
+          // Change class
+          $(cb.closest("div.task-box")).toggleClass("completed-true");
+
+          // Notify
+          $.notify({
+            message: result
+          },{
+            delay: 3000,
+            type: 'success',
+            placement: {
+              from: "bottom",
+              align: "right"
+            },
+          });
         }
       });
     };

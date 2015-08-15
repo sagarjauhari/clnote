@@ -18,6 +18,7 @@
       (include-js "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js")
       (include-js "js/drag-drop.js")
       (include-js "js/task.js")]
+      (include-js "vendor/js/bootstrap-notify.min.js")
 
       ; TODO nav bar item activate home, about
       [:body
