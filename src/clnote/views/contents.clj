@@ -23,31 +23,29 @@
       (task :title)])
    (filter #(= (% :rank) rank) tasks)))
 
+(defn new-task-form [errors]
+  [:div
+  [:form {:method "POST", :action "/tasks"}  
+                [:div.input-group
+                  (text-field {:class "form-control", :placeholder "Add a task"} "title")
+                  [:span.input-group-btn
+                    [:button.btn.btn-default {:type "submit", :value "+"}
+                      [:i.fa.fa-plus]]]
+                  [:input {:type "hidden", :name "rank", :value "1"}]]]
+  (if-not (nil? errors)
+            [:span.help-inline (errors :title)])])
+
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
-    [:div.row
-      [:div.span12 [:h3 "My Tasks"]]
+    [:div.panel
+      [:div.panel-heading "My Tasks"]
+      [:div.panel-body
+        [:div.row
+          [:div.drag-wrapper
+            [:div.col-md-3
+              (new-task-form errors)
+              [:div#left1.drag-container.list-group (task-items tasks 1)]]
 
-      ; Add task
-      [:div.row
-        [:div.col-md-3
-          [:form {:method "POST", :action "/tasks"}  
-            [:div.input-group
-              (text-field {:class "form-control", :placeholder "Add a task"} "title")
-              [:span.input-group-btn
-                [:button.btn.btn-default {:type "submit", :value "+"}
-                  [:i.fa.fa-plus]]]
-              [:input {:type "hidden", :name "rank", :value "1"}]]]]
-        ; Validation errors
-        (if-not (nil? errors)
-          [:span.help-inline (errors :title)])]
-
-      ; Task columns
-      [:div.row
-        [:div.drag-wrapper
-          [:div.col-md-3
-            [:div#left1.drag-container.list-group (task-items tasks 1)]]
-
-          [:div.col-md-3
-            [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]))
+            [:div.col-md-3
+              [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]]))
 

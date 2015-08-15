@@ -6,7 +6,7 @@
   (first
     (b/validate
       params
-      :title [v/required [v/min-count 3]]
+      :title [v/required [v/min-count 3] [v/max-count 30]]
       :completed [v/required v/boolean]
       :rank [v/required v/number v/positive])))
 
