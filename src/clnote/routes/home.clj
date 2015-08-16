@@ -47,6 +47,17 @@
       (merge {:tasks (group-tasks-by-rank tasks)}
         (select-keys flash [:title :description :completed :rank :errors])))))
 
+(defn task-tree []
+  (let [tasks (db/get-tasks)]
+    (map
+      (fn [parent] (merge
+                     parent
+                     {:children
+                      (filter
+                        #(and (= (% :rank) 2) (= (% :parent_id) (parent :id)))
+                        tasks)}))
+      (filter #(= (% :rank) 1) tasks))))
+
 (defn tasks-page [{:keys [flash]}]
   (hic-layout/application
     "Tasks"
