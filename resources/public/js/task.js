@@ -28,4 +28,10 @@ $(document).ready(function() {
       });
     };
   });
+
+  _.each($(".task-title-link"), function(link){
+    link.onclick = function(){
+      $(link.closest("div.task-box")).toggleClass("active");
+    }
+  });
 });

@@ -20,7 +20,8 @@
     [:div {:class (str "list-group-item task-box " (if (task :completed) "completed-true"))}
       [:span.handle "+"]
       (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
-      (task :title)])
+      (str " ")
+      (link-to {:class "task-title-link"} "#" (task :title))])
    (filter #(= (% :rank) rank) tasks)))
 
 (defn new-task-form [errors]
@@ -31,7 +32,7 @@
         [:span.input-group-btn
           [:button.btn.btn-default {:type "submit", :value "+"}
             [:i.fa.fa-plus]]]]
-        [:input {:type "hidden", :name "rank", :value "1"}]]
+      [:input {:type "hidden", :name "rank", :value "1"}]]
     (if-not (nil? errors)
               [:span.help-inline (errors :title)])])
 
