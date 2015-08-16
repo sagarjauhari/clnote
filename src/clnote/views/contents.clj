@@ -24,7 +24,7 @@
       (link-to {:class "task-title-link"} "#" (task :title))])
    (filter #(= (% :rank) rank) tasks)))
 
-(defn new-task-form [errors]
+(defn new-task-form [rank errors]
   [:div
     [:form {:method "POST", :action "/tasks"}  
       [:div.input-group
@@ -32,7 +32,7 @@
         [:span.input-group-btn
           [:button.btn.btn-default {:type "submit", :value "+"}
             [:i.fa.fa-plus]]]]
-      [:input {:type "hidden", :name "rank", :value "1"}]]
+      [:input {:type "hidden", :name "rank", :value rank}]]
     (if-not (nil? errors)
               [:span.help-inline (errors :title)])])
 
@@ -43,8 +43,9 @@
         [:div.row
           [:div.drag-wrapper
             [:div.col-md-3
-              (new-task-form errors)
+              (new-task-form 1 errors)
               [:div#left1.drag-container.list-group (task-items tasks 1)]]
             [:div.col-md-3
+              (new-task-form 2 errors)
               [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]]))
 

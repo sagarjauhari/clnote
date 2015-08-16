@@ -24,7 +24,16 @@ body {
 }
 
 .drag-container .completed-true {
-  background-color: lightgray;
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.drag-container .invisible {
+  display: none;
+}
+
+a.task-title-link {
+  color: black;
 }
 
 /* Styling of element being dragged */
