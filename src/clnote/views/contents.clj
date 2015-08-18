@@ -1,4 +1,5 @@
 (ns clnote.views.contents
+  (:require [taoensso.timbre :as timbre])
   (:use [hiccup.form]
         [hiccup.element :only (link-to)]))
 
@@ -24,13 +25,11 @@
 
 (defn task-items [tasks]
   (conj
-  (map
-    (fn [task]
-      [:div.list-group-item.task-item (task-box task)])
-    (rest tasks))
-  
-  [:div.list-group-item.task-item.active (task-box (first tasks))]
-  ))
+    (map
+      (fn [task]
+        [:div.list-group-item.task-item (task-box task)])
+      (rest tasks))
+    [:div.list-group-item.task-item.active (task-box (first tasks))]))
 
 (defn new-task-form [rank errors]
   [:div
@@ -44,6 +43,11 @@
     (if-not (nil? errors)
               [:span.help-inline (errors :title)])])
 
+(defn children [tasks]
+  ; When scrollspy will be used, each group of children will need to have a
+  ; specific id which can be linked to the click of the parent task
+  (mapcat #(% :children) tasks))
+
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
     [:div.panel
@@ -55,6 +59,5 @@
               [:div#left1.drag-container.list-group (task-items tasks)]]
             [:div.col-md-3
               (new-task-form 2 errors)
-              ;; Show children of first task
-              [:div#right1.drag-container.list-group (task-items ((first tasks) :children))]]]]]]))
+              [:div#right1.drag-container.list-group (task-items (children tasks))]]]]]]))
 
