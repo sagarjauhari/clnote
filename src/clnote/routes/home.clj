@@ -40,13 +40,6 @@
         (db/create-task! pparams)  
         (redirect "/tasks")))))
 
-(defn home-page [{:keys [flash]}]
-  (let [tasks (db/get-tasks)] 
-    (layout/render
-      "home.html"
-      (merge {:tasks (group-tasks-by-rank tasks)}
-        (select-keys flash [:title :description :completed :rank :errors])))))
-
 (defn task-tree []
   (let [tasks (db/get-tasks)]
     (map
@@ -61,7 +54,7 @@
 (defn tasks-page [{:keys [flash]}]
   (hic-layout/application
     "Tasks"
-    (contents/tasks (merge {:tasks (db/get-tasks)}
+    (contents/tasks (merge {:tasks (task-tree)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defn about-page []
@@ -69,7 +62,7 @@
 
 (defroutes app-routes
   ; TODO redirect to tasks page
-  (GET "/" request (home-page request))
+  (GET "/" request (tasks-page request))
   (DELETE "/" request (delete-task! request))
   (POST "/" request (create-task! request))
 

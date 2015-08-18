@@ -16,7 +16,6 @@ body {
 }
 
 .drag-container {
-  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .drag-container .task-box {

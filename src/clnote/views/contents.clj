@@ -15,14 +15,22 @@
 (defn about []
   [:p "This awesome app was created in August 2015"])
 
-(defn task-items [tasks rank]
-  (map (fn [task]
-    [:div {:class (str "list-group-item task-box " (if (task :completed) "completed-true"))}
-      [:span.handle "+"]
-      (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
-      (str " ")
-      (link-to {:class "task-title-link"} "#" (task :title))])
-   (filter #(= (% :rank) rank) tasks)))
+(defn task-box [task]
+  [:div {:class (str "task-box " (if (task :completed) "completed-true"))}
+        [:span.handle "+"]
+        (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
+        (str " ")
+        (link-to {:class "task-title-link"} "#" (task :title))])
+
+(defn task-items [tasks]
+  (conj
+  (map
+    (fn [task]
+      [:div.list-group-item.task-item (task-box task)])
+    (rest tasks))
+  
+  [:div.list-group-item.task-item.active (task-box (first tasks))]
+  ))
 
 (defn new-task-form [rank errors]
   [:div
@@ -44,8 +52,9 @@
           [:div.drag-wrapper
             [:div.col-md-3
               (new-task-form 1 errors)
-              [:div#left1.drag-container.list-group (task-items tasks 1)]]
+              [:div#left1.drag-container.list-group (task-items tasks)]]
             [:div.col-md-3
               (new-task-form 2 errors)
-              [:div#right1.drag-container.list-group (task-items tasks 2)]]]]]]))
+              ;; Show children of first task
+              [:div#right1.drag-container.list-group (task-items ((first tasks) :children))]]]]]]))
 
