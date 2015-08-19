@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  dragula([left1, right1], {
+  var containers = [left1, right1];
+  dragula(containers, {
     moves: function (el, container, handle) {
       return handle.className === 'handle';
     }

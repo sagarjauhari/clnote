@@ -23,6 +23,7 @@
         (str " ")
         (link-to {:class "task-title-link"} "#" (task :title))])
 
+; Converts a list of tasks into a list of list-group-items
 (defn task-items [tasks]
   (conj
     (map
@@ -30,6 +31,12 @@
         [:div.list-group-item.task-item (task-box task)])
       (rest tasks))
     [:div.list-group-item.task-item.active (task-box (first tasks))]))
+
+; Takes as input a parent task and returns the list of list-items of children
+; NESTED UNDER a div with id of parent
+(defn children-grp [task]
+  [:div.children-grp {:id (str "children-grp-" (task :id))}
+    (if (> (count (task :children)) 0) (task-items (task :children)))])
 
 (defn new-task-form [rank errors]
   [:div
@@ -43,11 +50,6 @@
     (if-not (nil? errors)
               [:span.help-inline (errors :title)])])
 
-(defn children [tasks]
-  ; When scrollspy will be used, each group of children will need to have a
-  ; specific id which can be linked to the click of the parent task
-  (mapcat #(% :children) tasks))
-
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
     [:div.panel
@@ -59,5 +61,5 @@
               [:div#left1.drag-container.list-group (task-items tasks)]]
             [:div.col-md-3
               (new-task-form 2 errors)
-              [:div#right1.drag-container.list-group (task-items (children tasks))]]]]]]))
+              [:div#right1.drag-container.list-group (map #(children-grp %) tasks)]]]]]]))
 

@@ -32,6 +32,13 @@ $(document).ready(function() {
   _.each($(".task-title-link"), function(link){
     link.onclick = function(){
       // $(link.closest("div.task-box"));
+
+      // $('.menu>li').on('click',function(e){
+      //   $('.container>.'+ e.target.classList[0]).show().siblings().hide();
+      // });
+      // Create div for each group of children tasks, and show only the div
+      // corresponding to the children of the clicked parent
+      // Hide the sibling divs
     }
   });
 });
