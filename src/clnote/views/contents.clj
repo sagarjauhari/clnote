@@ -35,7 +35,7 @@
 ; Takes as input a parent task and returns the list of list-items of children
 ; NESTED UNDER a div with id of parent
 (defn children-grp [task]
-  [:div.children-grp {:id (str "children-grp-" (task :id))}
+  [:div.drag-container {:id (str "children-grp-" (task :id))}
     (if (> (count (task :children)) 0) (task-items (task :children)))])
 
 (defn new-task-form [rank errors]
@@ -61,5 +61,5 @@
               [:div#left1.drag-container.list-group (task-items tasks)]]
             [:div.col-md-3
               (new-task-form 2 errors)
-              [:div#right1.drag-container.list-group (map #(children-grp %) tasks)]]]]]]))
+              [:div#right1.list-group (map #(children-grp %) tasks)]]]]]]))
 

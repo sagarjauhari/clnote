@@ -16,8 +16,6 @@ body {
 }
 
 .drag-container {
-  height: 300px;
-  overflow-y: scroll;
 }
 
 .drag-container .task-box {
