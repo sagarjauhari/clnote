@@ -30,15 +30,17 @@ $(document).ready(function() {
   });
 
   _.each($(".task-title-link"), function(link){
-    link.onclick = function(){
-      // $(link.closest("div.task-box"));
+    var link = $(link);
 
-      // $('.menu>li').on('click',function(e){
-      //   $('.container>.'+ e.target.classList[0]).show().siblings().hide();
-      // });
-      // Create div for each group of children tasks, and show only the div
-      // corresponding to the children of the clicked parent
-      // Hide the sibling divs
-    }
+    link.click(function(){
+      // Make this list-item active
+      link.closest(".task-item").
+        addClass("active").
+        siblings().removeClass("active");
+
+      // Show only children tasks of this parent
+      var taskId = link.parent().attr("taskId");
+      $("#children-grp-" + taskId).show().siblings().hide();
+    });
   });
 });

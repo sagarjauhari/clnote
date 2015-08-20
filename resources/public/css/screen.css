@@ -27,7 +27,7 @@ body {
   text-decoration: line-through;
 }
 
-.drag-container .invisible {
+.invisible {
   display: none;
 }
 

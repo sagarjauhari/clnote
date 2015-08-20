@@ -17,7 +17,7 @@
   [:p "This awesome app was created in August 2015"])
 
 (defn task-box [task]
-  [:div {:class (str "task-box " (if (task :completed) "completed-true"))}
+  [:div {:taskId (task :id) :class (str "task-box " (if (task :completed) "completed-true"))}
         [:span.handle "+"]
         (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
         (str " ")
