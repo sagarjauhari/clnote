@@ -40,6 +40,7 @@
 ; NESTED UNDER a div with id of parent
 (defn children-grp [task]
   [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
+    [:div.description (task :description)]
     (if (> (count (task :children)) 0) (task-items (task :children)))])
 
 (defn new-task-form [rank errors]
