@@ -17,9 +17,13 @@
   [:p "This awesome app was created in August 2015"])
 
 (defn task-box [task]
-  [:div {:taskId (task :id) :class (str "task-box " (if (task :completed) "completed-true"))}
+  [:div {:taskId (task :id)
+         :class (str "task-box " (if (task :completed) "completed-true"))}
         [:span.handle "+"]
-        (check-box {:class "task-checkbox"} "completed" (task :completed) (task :id))
+        (check-box
+          {:class "task-checkbox"}
+          "completed"
+          (task :completed) (task :id))
         (str " ")
         (link-to {:class "task-title-link"} "#" (task :title))])
 
@@ -35,7 +39,7 @@
 ; Takes as input a parent task and returns the list of list-items of children
 ; NESTED UNDER a div with id of parent
 (defn children-grp [task]
-  [:div.drag-container {:id (str "children-grp-" (task :id))}
+  [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
     (if (> (count (task :children)) 0) (task-items (task :children)))])
 
 (defn new-task-form [rank errors]

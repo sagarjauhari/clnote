@@ -40,7 +40,10 @@ $(document).ready(function() {
 
       // Show only children tasks of this parent
       var taskId = link.parent().attr("taskId");
-      $("#children-grp-" + taskId).show().siblings().hide();
+      $("#children-grp-" + taskId).
+        removeClass("invisible").
+        siblings().
+        addClass("invisible");
     });
   });
 });
