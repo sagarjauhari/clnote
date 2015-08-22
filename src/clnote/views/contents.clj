@@ -40,6 +40,7 @@
 ; NESTED UNDER a div with id of parent
 (defn children-grp [task]
   [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
+    [:h4 (task :title)]
     [:div.description (task :description)]
     (if (> (count (task :children)) 0) (task-items (task :children)))])
 
@@ -62,9 +63,10 @@
         [:div.row
           [:div.drag-wrapper
             [:div.col-md-3
-              (new-task-form 1 errors)
-              [:div#left1.drag-container.list-group (task-items tasks)]]
+              [:h4 "Tasks"]
+              [:div#left1.drag-container.list-group (task-items tasks)]
+              (new-task-form 1 errors)]
             [:div.col-md-3
-              (new-task-form 2 errors)
-              [:div#right1.list-group (map #(children-grp %) tasks)]]]]]]))
+              [:div#right1.list-group (map #(children-grp %) tasks)]
+              (new-task-form 2 errors)]]]]]))
 
