@@ -34,20 +34,25 @@
       [:div.list-group-item.task-item (task-box task)])
     tasks))
 
+(defn new-task-line [rank parent]
+  [:div
+    [:form {:method "POST", :action "/tasks"}  
+      [:div.input-group
+        (text-field {:class "form-control", :placeholder "Add a task"} "title")
+        [:span.input-group-btn
+          [:button.btn.btn-default {:type "submit", :value "+"}
+            [:i.fa.fa-plus]]]]
+      [:input {:type "hidden", :name "rank", :value rank}]
+      [:input {:type "hidden", :name "parentId", :value (parent :id)}]]])
+
 ; Takes as input a parent task and returns the list of list-items of children
 ; NESTED UNDER a div with id of parent
 (defn children-grp [task]
   [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
     [:h4 (task :title)]
     [:div.description (task :description)]
-    (if (> (count (task :children)) 0) (task-items (task :children)))])
-
-(defn new-task-line [rank]
-  [:div.input-group
-    (text-field {:class "form-control", :placeholder "Add a task"} "title")
-    [:span.input-group-btn
-      [:button.btn.btn-default {:type "submit", :value "+"}
-        [:i.fa.fa-plus]]]])
+    (if (> (count (task :children)) 0) (task-items (task :children)))
+    (new-task-line 2 task)])
 
 (defn new-task-form [rank errors]
   [:div
@@ -72,6 +77,7 @@
               [:div#left1.drag-container.list-group (task-items tasks)]
               (new-task-form 1 errors)]
             [:div.col-md-3
-              [:div#right1.list-group (map #(children-grp %) tasks)]
-              (new-task-form 2 errors)]]]]]))
+              [:div#right1.list-group (map #(children-grp %) tasks)]]]]
+        [:div.row
+         [:div.drag-wrapper "hello world"]]]]))
 

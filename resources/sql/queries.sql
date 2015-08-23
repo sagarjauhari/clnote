@@ -22,8 +22,8 @@ SELECT * from users
 -- name: create-task!
 -- creates a new task record
 INSERT INTO tasks
-(title, description, completed, rank)
-VALUES (:title, :description, :completed, :rank)
+(title, description, completed, rank, parent_id)
+VALUES (:title, :description, :completed, :rank, :parent_id)
 
 -- name: update-task!
 -- update an existing task record

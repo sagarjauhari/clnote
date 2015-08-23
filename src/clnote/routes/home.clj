@@ -25,13 +25,14 @@
   (str "Task updated"))
 
 (defn create-task! [{:keys [params]}]
-  (let [{:keys [rank title description completed __anti-forgery-token]} params]
+  (let [{:keys [rank parentId title description completed __anti-forgery-token]} params]
     (def pparams
       {:__anti-forgery-token __anti-forgery-token
        :title title
        :description description
        :completed (Boolean/valueOf (if completed completed "false"))
-       :rank (Integer/parseInt (if rank rank "1"))})
+       :rank (Integer/parseInt (if rank rank "1"))
+       :parent_id (if parentId (Integer/parseInt parentId) nil)})
 
     (if-let [errors (validate-task pparams)]
       (-> (redirect "/tasks")
@@ -40,7 +41,7 @@
         (db/create-task! pparams)  
         (redirect "/tasks")))))
 
-(defn task-tree []
+(defn task-tree-2level []
   (let [tasks (db/get-tasks)]
     (map
       (fn [parent] (merge
@@ -54,7 +55,7 @@
 (defn tasks-page [{:keys [flash]}]
   (hic-layout/application
     "Tasks"
-    (contents/tasks (merge {:tasks (task-tree)}
+    (contents/tasks (merge {:tasks (task-tree-2level)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defn about-page []
