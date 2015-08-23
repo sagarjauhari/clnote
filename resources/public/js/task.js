@@ -46,4 +46,18 @@ $(document).ready(function() {
         addClass("invisible");
     });
   });
+
+  // Find chidlren group from task-item
+  var childrenGrp = function(taskItem){
+    return $("#children-grp-" + taskItem.children(".task-box").attr("taskid"));
+  };
+
+  // Make first parent active and show its children
+  var showFirstParentChildren = function(){
+    var firstParent = $("#left1").children().first();
+    firstParent.addClass("active");
+    childrenGrp(firstParent).removeClass("invisible");
+  };
+
+  showFirstParentChildren();
 });

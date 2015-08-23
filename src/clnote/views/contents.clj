@@ -29,12 +29,10 @@
 
 ; Converts a list of tasks into a list of list-group-items
 (defn task-items [tasks]
-  (conj
-    (map
-      (fn [task]
-        [:div.list-group-item.task-item (task-box task)])
-      (rest tasks))
-    [:div.list-group-item.task-item.active (task-box (first tasks))]))
+  (map
+    (fn [task]
+      [:div.list-group-item.task-item (task-box task)])
+    tasks))
 
 ; Takes as input a parent task and returns the list of list-items of children
 ; NESTED UNDER a div with id of parent
@@ -43,6 +41,13 @@
     [:h4 (task :title)]
     [:div.description (task :description)]
     (if (> (count (task :children)) 0) (task-items (task :children)))])
+
+(defn new-task-line [rank]
+  [:div.input-group
+    (text-field {:class "form-control", :placeholder "Add a task"} "title")
+    [:span.input-group-btn
+      [:button.btn.btn-default {:type "submit", :value "+"}
+        [:i.fa.fa-plus]]]])
 
 (defn new-task-form [rank errors]
   [:div
