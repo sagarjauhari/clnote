@@ -26,6 +26,10 @@ body {
   margin-bottom: 0px;
 }
 
+.list-group-item {
+  padding: 5px 10px;
+}
+
 .drag-container .completed-true {
   opacity: 0.5;
   text-decoration: line-through;
