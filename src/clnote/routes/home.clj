@@ -64,6 +64,7 @@
                         tasks)}))
       (filter #(= (% :rank) 1) tasks))))
 
+; TODO: Send errors to notifier
 (defn tasks-page [{:keys [flash]}]
   (hic-layout/application
     "Tasks"
