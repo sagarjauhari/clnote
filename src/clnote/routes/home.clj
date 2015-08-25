@@ -41,6 +41,18 @@
         (db/create-task! pparams)  
         (redirect "/tasks")))))
 
+(defn add-children [tasks, task]
+  (let [children (filter #(= (task :id) (% :parent_id)) tasks)]
+    (if (empty? children)
+      ; Base case
+      task
+      ; Recursive case
+      (merge task {:children (map #(add-children tasks %) children)}))))
+
+(defn task-tree []
+  (let [tasks (db/get-tasks)]
+    (add-children tasks {:id nil})))
+
 (defn task-tree-2level []
   (let [tasks (db/get-tasks)]
     (map
