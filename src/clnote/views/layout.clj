@@ -20,7 +20,6 @@
       (include-js "js/task.js")]
       (include-js "vendor/js/bootstrap-notify.min.js")
 
-      ; TODO nav bar item activate home, about
       [:body
         [:div {:class "navbar navbar-inverse navbar-fixed-top"}  
          [:div {:class "container"}  
@@ -29,7 +28,5 @@
           [:div {:class "navbar-collapse collapse "}  
            [:ul {:class "nav navbar-nav"}  
             [:li
-             [:a {:href "/tasks"} "Tasks"] ]  
-            [:li
-             [:a {:href "about"} "About"]]]]]]
+             [:a {:href "/tasks"} "Tasks"]]]]]]
            [:div {:class "container"} content]]))

@@ -1,5 +1,4 @@
 (ns clnote.views.contents
-  (:require [taoensso.timbre :as timbre])
   (:use [hiccup.form]
         [hiccup.element :only (link-to)]))
 
@@ -13,10 +12,9 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
-(defn about []
-  [:p "This awesome app was created in August 2015"])
-
-(defn task-box [task]
+(defn task-box
+  "Given a task, create a task box for it"
+  [task]
   [:div {:taskId (task :id)
          :class (str "task-box " (if (task :completed) "completed-true"))}
         [:span.handle "+"]
@@ -27,14 +25,16 @@
         (str " ")
         (link-to {:class "task-title-link"} "#" (task :title))])
 
-; Converts a list of tasks into a list of list-group-items
-(defn task-items [tasks]
+(defn task-items
+  "Converts a list of tasks into a list of list-group-items"
+  [tasks]
   (map
-    (fn [task]
-      [:div.list-group-item.task-item (task-box task)])
+    (fn [task] [:div.list-group-item.task-item (task-box task)])
     tasks))
 
-(defn new-task-line [rank parent]
+(defn new-task-line
+  "TODO Use AJAX to post"
+  [rank parent]
   [:div
     [:form {:method "POST", :action "/tasks"}  
       [:div.input-group
@@ -45,9 +45,10 @@
       [:input {:type "hidden", :name "rank", :value rank}]
       [:input {:type "hidden", :name "parentId", :value (parent :id)}]]])
 
-; Takes as input a parent task and returns the list of list-items of children
-; NESTED UNDER a div with id of parent
-(defn children-grp [task]
+(defn children-grp
+  "Takes as input a parent task and returns the list of list-items of children
+  NESTED UNDER a div with id of parent"
+  [task]
   [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
     [:h4 (task :title)]
     [:div.description (task :description)]

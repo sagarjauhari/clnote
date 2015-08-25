@@ -70,9 +70,6 @@
     (contents/tasks (merge {:tasks (task-tree-2level)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
-(defn about-page []
-  (layout/render "about.html"))
-
 (defroutes app-routes
   ; TODO redirect to tasks page
   (GET "/" request (tasks-page request))
@@ -85,9 +82,6 @@
 
     (context "/:id" [id] (defroutes task-routes
       (PUT "/" request (update-task request))))))
-
-  (GET "/about" []
-       (hic-layout/application "About CLnote" (contents/about)))
 
   (ANY "*" []
     (route/not-found
