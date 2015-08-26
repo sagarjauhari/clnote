@@ -64,13 +64,26 @@
       [:div.panel-body
         [:div.row
           [:div.drag-wrapper
+            ; rank 1
             [:div.col-md-3
               [:h4 "Tasks"]
-              [:div#left1.drag-container.list-group
+              [:div#left1.list-group
                 (children-grp {:id nil, :rank 0} tasks)]]
+            ; rank 2
             [:div.col-md-3
               [:div.list-group
                 (map
                   #(children-grp % tasks)
-                  ; Select all rank 1 tasks
-                  (filter #(nil? (% :parent_id)) tasks))]]]]]]))
+                  (filter #(= (% :rank) 1) tasks))]]
+            ; rank 3
+            [:div.col-md-3
+              [:div.list-group
+                (map
+                  #(children-grp % tasks)
+                  (filter #(= (% :rank) 2) tasks))]]
+            ; rank 4
+            [:div.col-md-3
+              [:div.list-group
+                (map
+                  #(children-grp % tasks)
+                  (filter #(= (% :rank) 3) tasks))]]]]]]))
