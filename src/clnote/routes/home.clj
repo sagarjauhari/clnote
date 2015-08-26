@@ -32,7 +32,11 @@
        :description description
        :completed (Boolean/valueOf (if completed completed "false"))
        :rank (Integer/parseInt (if rank rank "1"))
-       :parent_id (if parentId (Integer/parseInt parentId) nil)})
+       :parent_id
+        (if
+          (clojure.string/blank? parentId)
+          nil
+          (Integer/parseInt parentId))})
 
     (if-let [errors (validate-task pparams)]
       (-> (redirect "/tasks")
@@ -41,34 +45,11 @@
         (db/create-task! pparams)  
         (redirect "/tasks")))))
 
-(defn add-children [tasks, task]
-  (let [children (filter #(= (task :id) (% :parent_id)) tasks)]
-    (if (empty? children)
-      ; Base case
-      task
-      ; Recursive case
-      (merge task {:children (map #(add-children tasks %) children)}))))
-
-(defn task-tree []
-  (let [tasks (db/get-tasks)]
-    (add-children tasks {:id nil})))
-
-(defn task-tree-2level []
-  (let [tasks (db/get-tasks)]
-    (map
-      (fn [parent] (merge
-                     parent
-                     {:children
-                      (filter
-                        #(and (= (% :rank) 2) (= (% :parent_id) (parent :id)))
-                        tasks)}))
-      (filter #(= (% :rank) 1) tasks))))
-
 ; TODO: Send errors to notifier
 (defn tasks-page [{:keys [flash]}]
   (hic-layout/application
     "Tasks"
-    (contents/tasks (merge {:tasks (task-tree-2level)}
+    (contents/tasks (merge {:tasks (db/get-tasks)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defroutes app-routes

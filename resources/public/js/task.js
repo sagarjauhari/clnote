@@ -54,8 +54,14 @@ $(document).ready(function() {
 
   // Make first parent active and show its children
   var showFirstParentChildren = function(){
-    var firstParent = $("#left1").children().first();
+    // Show first drag container
+    var container = $("#left1").children(".drag-container")
+    container.removeClass("invisible");
+
+    // Make first parent active
+    var firstParent = container.children(".task-item").first()
     firstParent.addClass("active");
+
     childrenGrp(firstParent).removeClass("invisible");
   };
 

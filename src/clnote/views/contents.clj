@@ -50,12 +50,13 @@
 (defn children-grp
   "Takes as input a parent task and returns the list of list-items of children
   NESTED UNDER a div with id of parent"
-  [task]
-  [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
-    [:h4 (task :title)]
-    [:div.description (task :description)]
-    (if (> (count (task :children)) 0) (task-items (task :children)))
-    (new-task-line 2 task)])
+  [task tasks]
+  (let [children (filter #(= (% :parent_id) (task :id)) tasks)]
+    [:div.drag-container.invisible {:id (str "children-grp-" (task :id))}
+      [:h4 (task :title)]
+      [:div.description (task :description)]
+      (if (> (count children) 0) (task-items children))
+      (new-task-line (inc (task :rank)) task)]))
 
 (defn tasks [data]
   (let [tasks (data :tasks) errors (data :errors)]
@@ -65,8 +66,11 @@
           [:div.drag-wrapper
             [:div.col-md-3
               [:h4 "Tasks"]
-              [:div#left1.drag-container.list-group (task-items tasks)]
-              (new-task-line 1 nil)]
+              [:div#left1.drag-container.list-group
+                (children-grp {:id nil, :rank 0} tasks)]]
             [:div.col-md-3
-              [:div.list-group (map #(children-grp %) tasks)]]]]]]))
-
+              [:div.list-group
+                (map
+                  #(children-grp % tasks)
+                  ; Select all rank 1 tasks
+                  (filter #(nil? (% :parent_id)) tasks))]]]]]]))
