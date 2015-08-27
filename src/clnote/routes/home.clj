@@ -1,13 +1,12 @@
 (ns clnote.routes.home
   (:require [bouncer.core :as b]
             [bouncer.validators :as v]
-            [clnote.layout :as layout]
             [clnote.controllers.task :refer :all]
             [clojure.java.io :as io]
             [compojure.core :refer [defroutes context ANY DELETE GET POST PUT]]
             [compojure.route :as route]
             [clnote.db.core :as db]
-            [clnote.views.layout :as hic-layout]
+            [clnote.views.layout :as layout]
             [clnote.views.contents :as contents]
             [ring.util.http-response :refer [ok]]
             [ring.util.response :refer [redirect]]
@@ -47,13 +46,12 @@
 
 ; TODO: Send errors to notifier
 (defn tasks-page [{:keys [flash]}]
-  (hic-layout/application
+  (layout/application
     "Tasks"
     (contents/tasks (merge {:tasks (db/get-tasks)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defroutes app-routes
-  ; TODO redirect to tasks page
   (GET "/" request (tasks-page request))
   (DELETE "/" request (delete-task! request))
   (POST "/" request (create-task! request))
@@ -65,6 +63,13 @@
     (context "/:id" [id] (defroutes task-routes
       (PUT "/" request (update-task request))))))
 
+  (context "/angular" [] (defroutes tasks-routes
+    (GET "/" request (tasks-page request))
+    (POST "/" request (create-task! request))
+
+    (context "/:id" [id] (defroutes task-routes
+      (PUT "/" request (update-task request))))))
+
   (ANY "*" []
     (route/not-found
-      (hic-layout/application "Page Not Found" (contents/not-found)))))
+      (layout/application "Page Not Found" (contents/not-found)))))

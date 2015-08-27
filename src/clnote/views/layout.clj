@@ -28,5 +28,7 @@
           [:div {:class "navbar-collapse collapse "}  
            [:ul {:class "nav navbar-nav"}  
             [:li
-             [:a {:href "/tasks"} "Tasks"]]]]]]
+             [:a {:href "/tasks"} "Tasks"]]
+            [:li
+             [:a {:href "/angular"} "Angular"]]]]]]
            [:div {:class "container"} content]]))
