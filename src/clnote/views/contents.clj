@@ -12,6 +12,12 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
+(defn collection-picker []
+  [:div.dropdown
+   [:button.btn.btn-default.dropdown-toggle
+    {:type "button"
+     :data-togle "dropdown"} "Collection"]])
+
 (defn task-box
   "Given a task, create a task box for it"
   [task]

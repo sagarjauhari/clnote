@@ -2,7 +2,13 @@ html,
 body {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     height: 100%;
-    padding-top: 40px;
+    padding-top: 30px;
+}
+
+#main-nav {
+  margin-bottom: 0px;
+  border-bottom-width: 5px;
+  border-color: darkseagreen;
 }
 
 /* home page styling */
