@@ -21,7 +21,7 @@
       (include-js "vendor/js/bootstrap-notify.min.js")]
 
       [:body
-        [:div {:class "navbar navbar-inverse navbar-fixed-top"}  
+        [:div {:class "navbar navbar-default navbar-fixed-top"}  
          [:div {:class "container"}  
           [:div {:class "navbar-header"}  
            [:a {:class "navbar-brand", :href "/tasks"} "CLNote"] ]  

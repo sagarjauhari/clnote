@@ -11,6 +11,10 @@ body {
   right: 35px;
 }
 
+.task-item.active .task-box a {
+  color: white;
+}
+
 /* dragula-specific example page styles */
 .drag-wrapper {
 }
