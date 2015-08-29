@@ -51,12 +51,6 @@
     (contents/tasks (merge {:tasks (db/get-tasks)}
       (select-keys flash [:title :description :completed :rank :errors])))))
 
-(defn angular-tasks-page [{:keys [flash]}]
-  (layout/angular-application
-    "Tasks"
-    (contents/tasks (merge {:tasks (db/get-tasks)}
-      (select-keys flash [:title :description :completed :rank :errors])))))
-
 (defroutes app-routes
   (GET "/" request (tasks-page request))
   (DELETE "/" request (delete-task! request))
@@ -64,13 +58,6 @@
 
   (context "/tasks" [] (defroutes tasks-routes
     (GET "/" request (tasks-page request))
-    (POST "/" request (create-task! request))
-
-    (context "/:id" [id] (defroutes task-routes
-      (PUT "/" request (update-task request))))))
-
-  (context "/angular" [] (defroutes tasks-routes
-    (GET "/" request (angular-tasks-page request))
     (POST "/" request (create-task! request))
 
     (context "/:id" [id] (defroutes task-routes
