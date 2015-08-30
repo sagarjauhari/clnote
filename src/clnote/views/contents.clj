@@ -12,13 +12,13 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
-(defn collection-picker [collections]
+(defn collection-picker [collections coll-id]
   [:div.btn-group
     [:button.btn.btn-success.dropdown-toggle
       {:type "button"
         :data-toggle "dropdown"
         :aria-haspopup true
-        :aria-expanded false} "Notebooks " [:span.caret]]
+        :aria-expanded false} (str ((first (filter #(= (% :id) coll-id) collections)) :title) " ") [:span.caret]]
     [:ul.dropdown-menu
       (map
         (fn [coll]
@@ -76,7 +76,7 @@
         coll-id  (data :coll-id)]
     [:div.panel
       [:div.panel-body
-        (collection-picker colls)
+        (collection-picker colls coll-id)
         [:div.row
           [:div.drag-wrapper
             ; rank 1
