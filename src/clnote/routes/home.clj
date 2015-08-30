@@ -52,7 +52,11 @@
     "Tasks"
     (contents/tasks
       (merge
-        {:tasks (db/get-tasks {:coll_id coll-id})
+        {:tasks
+         (if
+           (> coll-id 0)
+           (db/get-tasks {:coll_id coll-id})
+           (db/get-all-tasks))
          :colls (db/get-collections)
          :coll-id coll-id}
         (select-keys flash [:title :description :completed :rank :errors])))))

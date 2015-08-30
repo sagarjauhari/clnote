@@ -18,12 +18,20 @@
       {:type "button"
         :data-toggle "dropdown"
         :aria-haspopup true
-        :aria-expanded false} (str ((first (filter #(= (% :id) coll-id) collections)) :title) " ") [:span.caret]]
+        :aria-expanded false}
+      (if (> coll-id 0)
+        (str ((first (filter #(= (% :id) coll-id) collections)) :title) " ")
+        "All ")
+      [:span.caret]]
     [:ul.dropdown-menu
-      (map
-        (fn [coll]
-          [:li (link-to (str "/" (coll :id) "/tasks") (coll :title))])
-        collections)]])
+      (concat
+        (map
+          (fn [coll]
+            [:li (link-to (str "/" (coll :id) "/tasks") (coll :title))])
+          collections)
+        [[:li.divider{:role "separator"}]
+         ; id = 0 means return all tasks in all collections
+         [:li (link-to "/0/tasks" "All")]])]])
 
 (defn task-box
   "Given a task, create a task box for it"

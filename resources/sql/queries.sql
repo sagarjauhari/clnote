@@ -53,6 +53,10 @@ WHERE id = :id
 -- selects all available tasks
 SELECT * from tasks where collection_id = :coll_id ORDER BY completed, id DESC;
 
+-- name: get-all-tasks
+-- selects tasks in ALL collections
+SELECT * from tasks ORDER BY completed, id DESC;
+
 -- name: delete-task!
 -- deletes a task
 DELETE FROM tasks
