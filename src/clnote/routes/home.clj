@@ -4,6 +4,7 @@
             [clnote.controllers.task :refer :all]
             [clojure.java.io :as io]
             [compojure.core :refer [defroutes context ANY DELETE GET POST PUT]]
+            [compojure.coercions :refer [as-int]]
             [compojure.route :as route]
             [clnote.db.core :as db]
             [clnote.views.layout :as layout]
@@ -23,7 +24,7 @@
   (db/update-task-completed! pparams)
   (str "Task updated"))
 
-(defn create-task! [{:keys [params]}]
+(defn create-task! [{:keys [params]} coll-id]
   (let [{:keys [rank parentId title description completed __anti-forgery-token]} params]
     (def pparams
       {:__anti-forgery-token __anti-forgery-token
@@ -35,30 +36,35 @@
         (if
           (clojure.string/blank? parentId)
           nil
-          (Integer/parseInt parentId))})
+          (Integer/parseInt parentId))
+        :coll_id coll-id})
 
     (if-let [errors (validate-task pparams)]
       (-> (redirect "/tasks")
           (assoc :flash (assoc pparams :errors errors)))
       (do
         (db/create-task! pparams)  
-        (redirect "/tasks")))))
+        (redirect (str "/" coll-id "/tasks"))))))
 
 ; TODO: Send errors to notifier
-(defn tasks-page [{:keys [flash]}]
+(defn tasks-page [coll-id flash]
   (layout/application
     "Tasks"
-    (contents/tasks (merge {:tasks (db/get-tasks)}
-      (select-keys flash [:title :description :completed :rank :errors])))))
+    (contents/tasks
+      (merge
+        {:tasks (db/get-tasks {:coll_id coll-id})
+         :colls (db/get-collections)
+         :coll-id coll-id}
+        (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defroutes app-routes
   (GET "/" request (tasks-page request))
   (DELETE "/" request (delete-task! request))
   (POST "/" request (create-task! request))
 
-  (context "/tasks" [] (defroutes tasks-routes
-    (GET "/" request (tasks-page request))
-    (POST "/" request (create-task! request))
+  (context "/:coll-id/tasks" [coll-id :<< as-int] (defroutes tasks-routes
+    (GET "/" [flash] (tasks-page coll-id flash))
+    (POST "/" request (create-task! request coll-id))
 
     (context "/:id" [id] (defroutes task-routes
       (PUT "/" request (update-task request))))))

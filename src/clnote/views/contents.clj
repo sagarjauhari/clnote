@@ -12,11 +12,18 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
-(defn collection-picker []
-  [:div.dropdown
-   [:button.btn.btn-default.dropdown-toggle
-    {:type "button"
-     :data-togle "dropdown"} "Collection"]])
+(defn collection-picker [collections]
+  [:div.btn-group
+    [:button.btn.btn-success.dropdown-toggle
+      {:type "button"
+        :data-toggle "dropdown"
+        :aria-haspopup true
+        :aria-expanded false} "Notebooks " [:span.caret]]
+    [:ul.dropdown-menu
+      (map
+        (fn [coll]
+          [:li (link-to (str "/" (coll :id) "/tasks") (coll :title))])
+        collections)]])
 
 (defn task-box
   "Given a task, create a task box for it"
@@ -42,16 +49,14 @@
   "TODO Use AJAX to post"
   [rank parent]
   [:div
-    [:form {:method "POST", :action "/tasks"}  
+    [:form {:method "POST", :action (str "/" (parent :collection_id) "/tasks")}  
       [:div.input-group
         (text-field {:class "form-control", :placeholder "Add a task"} "title")
         [:span.input-group-btn
           [:button.btn.btn-default {:type "submit", :value "+"}
             [:i.fa.fa-plus]]]]
       [:input {:type "hidden", :name "rank", :value rank}]
-      (if
-        (some? parent)
-        [:input {:type "hidden", :name "parentId", :value (parent :id)}])]])
+      [:input {:type "hidden", :name "parentId", :value (parent :id)}]]])
 
 (defn children-grp
   "Takes as input a parent task and returns the list of list-items of children
@@ -65,16 +70,20 @@
       (new-task-line (inc (task :rank)) task)]))
 
 (defn tasks [data]
-  (let [tasks (data :tasks) errors (data :errors)]
+  (let [tasks    (data :tasks)
+        errors   (data :errors)
+        colls    (data :colls)
+        coll-id  (data :coll-id)]
     [:div.panel
       [:div.panel-body
+        (collection-picker colls)
         [:div.row
           [:div.drag-wrapper
             ; rank 1
             [:div.col-md-3
               [:h4 "Tasks"]
               [:div#left1.list-group
-                (children-grp {:id nil, :rank 0} tasks)]]
+                (children-grp {:id nil, :rank 0, :collection-id coll-id} tasks)]]
             ; rank 2
             [:div.col-md-3
               [:div.list-group

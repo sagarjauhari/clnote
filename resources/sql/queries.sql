@@ -22,8 +22,8 @@ SELECT * from users
 -- name: create-task!
 -- creates a new task record
 INSERT INTO tasks
-(title, description, completed, rank, parent_id)
-VALUES (:title, :description, :completed, :rank, :parent_id)
+(title, description, completed, rank, parent_id, collection_id)
+VALUES (:title, :description, :completed, :rank, :parent_id, :coll_id)
 
 -- name: update-task!
 -- update an existing task record
@@ -51,9 +51,13 @@ WHERE id = :id
 
 -- name: get-tasks
 -- selects all available tasks
-SELECT * from tasks ORDER BY completed, id DESC;
+SELECT * from tasks where collection_id = :coll_id ORDER BY completed, id DESC;
 
 -- name: delete-task!
 -- deletes a task
 DELETE FROM tasks
 WHERE id = :id
+
+-- name: get-collections
+-- selects all available collections
+SELECT * from collections ORDER BY title;
