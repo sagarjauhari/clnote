@@ -83,7 +83,7 @@
             [:div.col-md-3
               [:h4 "Tasks"]
               [:div#left1.list-group
-                (children-grp {:id nil, :rank 0, :collection-id coll-id} tasks)]]
+                (children-grp {:id nil, :rank 0, :collection_id coll-id} tasks)]]
             ; rank 2
             [:div.col-md-3
               [:div.list-group

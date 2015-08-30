@@ -62,12 +62,11 @@
   (DELETE "/" request (delete-task! request))
   (POST "/" request (create-task! request))
 
+  (PUT "/tasks/:id" request (update-task request))
+
   (context "/:coll-id/tasks" [coll-id :<< as-int] (defroutes tasks-routes
     (GET "/" [flash] (tasks-page coll-id flash))
-    (POST "/" request (create-task! request coll-id))
-
-    (context "/:id" [id] (defroutes task-routes
-      (PUT "/" request (update-task request))))))
+    (POST "/" request (create-task! request coll-id))))
 
   (ANY "*" []
     (route/not-found
