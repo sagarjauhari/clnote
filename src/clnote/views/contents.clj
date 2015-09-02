@@ -54,7 +54,18 @@
     tasks))
 
 (defn new-task-line
-  "TODO Use AJAX to post"
+  "Add new task using AJAX"
+  [rank parent]
+  [:div.new-task-line
+    (text-field
+      {:class "form-control"
+       :placeholder "New task"
+       :parentId (parent :id)
+       :collectionId (parent :collection_id)
+       :rank rank}
+      "title")])
+
+(defn new-task-form
   [rank parent]
   [:div
     [:form {:method "POST", :action (str "/" (parent :collection_id) "/tasks")}  
@@ -75,7 +86,9 @@
       [:h4 (task :title)]
       [:div.description (task :description)]
       (if (> (count children) 0) (task-items children))
-      (new-task-line (inc (task :rank)) task)]))
+      (new-task-line (inc (task :rank)) task)
+      ; (new-task-form (inc (task :rank)) task)
+      ]))
 
 (defn tasks [data]
   (let [tasks    (data :tasks)

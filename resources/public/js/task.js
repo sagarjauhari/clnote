@@ -1,4 +1,44 @@
 $(document).ready(function() {
+  // UI Notify INFO
+  var notifyInfo = function (message) {
+    $.notify({
+      message: message
+    },{
+      delay: 3000,
+      type: 'success',
+      placement: {
+        from: "bottom",
+        align: "right"
+      },
+    });
+  };
+  
+
+  // Add a new task when the add button of the form is clicked
+  _.each($(".new-task-line input"), function(taskInput){
+    collId = $(taskInput).attr("collectionId");
+    url = "/" + collId + "/tasks"
+
+    $(taskInput).keypress(function (e) {
+      if (e.which == 13) {
+        $.post(
+          url,
+          {
+            title: $(taskInput).val(),
+            rank: $(taskInput).attr("rank"),
+            parentId: $(taskInput).attr("parentId")
+          },
+          function (data) {
+            notifyInfo("New task added");
+          }
+        );
+
+        return false; // important
+      }
+    });
+  });
+
+  // Update task completion when its checkbox is clicked
   _.each($(".task-checkbox"), function(cb){
     cb.onclick = function(){
       var url = "/tasks/" + cb.value
@@ -14,16 +54,7 @@ $(document).ready(function() {
           $(cb.closest("div.task-box")).toggleClass("completed-true");
 
           // Notify
-          $.notify({
-            message: result
-          },{
-            delay: 3000,
-            type: 'success',
-            placement: {
-              from: "bottom",
-              align: "right"
-            },
-          });
+          notifyInfo(result);
         }
       });
     };

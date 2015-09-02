@@ -25,9 +25,9 @@
         [:div {:class "navbar navbar-default navbar-fixed-top"}  
          [:div {:class "container"}  
           [:div {:class "navbar-header"}  
-           [:a {:class "navbar-brand", :href "/"} "CLNote"] ]  
+           [:a {:class "navbar-brand", :href "/0/tasks"} "CLNote"]]
           [:div {:class "navbar-collapse collapse "}  
            [:ul {:class "nav navbar-nav"}  
             [:li
-             [:a {:href "/tasks"} "Tasks"]]]]]]
+             [:a {:href "/0/tasks"} "Tasks"]]]]]]
            [:div {:class "container"} content]]))
