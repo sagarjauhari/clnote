@@ -9,6 +9,7 @@
             [clnote.db.core :as db]
             [clnote.views.layout :as layout]
             [clnote.views.contents :as contents]
+            [hiccup.core :refer [html]]
             [ring.util.http-response :refer [ok]]
             [ring.util.response :refer [redirect]]
             [taoensso.timbre :as timbre]))
@@ -40,11 +41,13 @@
         :coll_id coll-id})
 
     (if-let [errors (validate-task pparams)]
-      (-> (redirect "/tasks")
-          (assoc :flash (assoc pparams :errors errors)))
+      ; (-> (redirect (str "/" coll-id "/tasks"))
+      ;     (assoc :flash (assoc pparams :errors errors)))
+      (str {:errors errors})
       (do
-        (db/create-task! pparams)  
-        (redirect (str "/" coll-id "/tasks"))))))
+        ; TODO Handle DB error if task cannot be created
+        (if-let [new-task (db/create-task<! pparams)]
+          (html (contents/task-item new-task)))))))
 
 ; TODO: Send errors to notifier
 (defn tasks-page [coll-id flash]

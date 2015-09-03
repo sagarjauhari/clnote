@@ -33,10 +33,12 @@
          ; id = 0 means return all tasks in all collections
          [:li (link-to "/0/tasks" "All")]])]])
 
-(defn task-box
-  "Given a task, create a task box for it"
+(defn task-item
+  "Given a task, create a task box for it.
+   Also used by post request to append new item to existing list"
   [task]
-  [:div {:taskId (task :id)
+  [:div.list-group-item.task-item
+    [:div {:taskId (task :id)
          :class (str "task-box " (if (task :completed) "completed-true"))}
         [:span.handle "+"]
         (check-box
@@ -44,14 +46,12 @@
           "completed"
           (task :completed) (task :id))
         (str " ")
-        (link-to {:class "task-title-link"} "#" (task :title))])
+        (link-to {:class "task-title-link"} "#" (task :title))]])
 
 (defn task-items
   "Converts a list of tasks into a list of list-group-items"
   [tasks]
-  (map
-    (fn [task] [:div.list-group-item.task-item (task-box task)])
-    tasks))
+  (map (fn [task] (task-item task)) tasks))
 
 (defn new-task-line
   "Add new task using AJAX"

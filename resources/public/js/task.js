@@ -30,8 +30,13 @@ $(document).ready(function() {
           },
           function (data) {
             notifyInfo("New task added");
+
+            $(data).insertBefore($(taskInput).closest(".new-task-line"));
           }
         );
+
+        // Clear the input
+        $(taskInput).val("");
 
         return false; // important
       }

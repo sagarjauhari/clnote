@@ -19,8 +19,8 @@ WHERE id = :id
 -- selects all available users
 SELECT * from users
 
--- name: create-task!
--- creates a new task record
+-- name: create-task<!
+-- creates a new task record and return it
 INSERT INTO tasks
 (title, description, completed, rank, parent_id, collection_id)
 VALUES (:title, :description, :completed, :rank, :parent_id, :coll_id)
