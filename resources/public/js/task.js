@@ -36,6 +36,24 @@ $(document).ready(function() {
     });
   };
 
+  // Activate a task-item and open its children-grp when it is
+  // clicked
+  var activateTaskOnClick = function (link) {
+    link.click(function(){
+      // Make this list-item active
+      link.closest(".task-item").
+        addClass("active").
+        siblings().removeClass("active");
+
+      // Show only children tasks of this parent
+      var taskId = link.parent().attr("taskId");
+      $("#children-grp-" + taskId).
+        removeClass("invisible").
+        siblings().
+        addClass("invisible");
+    });
+  }
+
   // Add a new task when the add button of the form is clicked
   _.each($(".new-task-line input"), function(taskInput){
     collId = $(taskInput).attr("collectionId");
@@ -61,6 +79,9 @@ $(document).ready(function() {
             // register task completion listener
             checkBoxId = $taskBox.find(".task-checkbox").attr("id");
             completeTaskOnClick($("#" + checkBoxId));
+
+            // register the task activate listener
+            activateTaskOnClick($taskBox.find(".task-title-link"));
           }
         );
 
@@ -77,22 +98,9 @@ $(document).ready(function() {
     completeTaskOnClick($(cb));
   });
 
+  // Add click listener to each task title
   _.each($(".task-title-link"), function(link){
-    var link = $(link);
-
-    link.click(function(){
-      // Make this list-item active
-      link.closest(".task-item").
-        addClass("active").
-        siblings().removeClass("active");
-
-      // Show only children tasks of this parent
-      var taskId = link.parent().attr("taskId");
-      $("#children-grp-" + taskId).
-        removeClass("invisible").
-        siblings().
-        addClass("invisible");
-    });
+    activateTaskOnClick($(link));
   });
 
   // Find chidlren group from task-item
