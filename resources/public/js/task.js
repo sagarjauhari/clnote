@@ -69,12 +69,20 @@ $(document).ready(function() {
             parentId: $(taskInput).attr("parentId")
           },
           function (data) {
-            $taskBox = $(data)
-
             notifyInfo("New task added");
+
+            jsonData = $.parseJSON(data);
+
+            $taskBox = $(jsonData.taskItem);
+            $childrenGrp = $(jsonData.childrenGrp);
 
             // insert the new element
             $taskBox.insertBefore($(taskInput).closest(".new-task-line"));
+
+            // add its children-grp to the correct column
+            $("#col-rank-" + (parseInt($(taskInput).attr("rank")) + 1)).
+              find(".list-group").
+              append($childrenGrp);
 
             // register task completion listener
             checkBoxId = $taskBox.find(".task-checkbox").attr("id");

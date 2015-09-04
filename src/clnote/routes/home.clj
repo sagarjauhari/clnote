@@ -3,6 +3,7 @@
             [bouncer.validators :as v]
             [clnote.controllers.task :refer :all]
             [clojure.java.io :as io]
+            [clojure.data.json :as json]
             [compojure.core :refer [defroutes context ANY DELETE GET POST PUT]]
             [compojure.coercions :refer [as-int]]
             [compojure.route :as route]
@@ -47,7 +48,9 @@
       (do
         ; TODO Handle DB error if task cannot be created
         (if-let [new-task (db/create-task<! pparams)]
-          (html (contents/task-item new-task)))))))
+          (json/write-str
+            {:taskItem (html (contents/task-item new-task))
+             :childrenGrp (html (contents/children-grp new-task {}))}))))))
 
 ; TODO: Send errors to notifier
 (defn tasks-page [coll-id flash]

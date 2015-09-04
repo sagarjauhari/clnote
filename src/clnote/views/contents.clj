@@ -65,18 +65,6 @@
        :rank rank}
       "title")])
 
-(defn new-task-form
-  [rank parent]
-  [:div
-    [:form {:method "POST", :action (str "/" (parent :collection_id) "/tasks")}  
-      [:div.input-group
-        (text-field {:class "form-control", :placeholder "Add a task"} "title")
-        [:span.input-group-btn
-          [:button.btn.btn-default {:type "submit", :value "+"}
-            [:i.fa.fa-plus]]]]
-      [:input {:type "hidden", :name "rank", :value rank}]
-      [:input {:type "hidden", :name "parentId", :value (parent :id)}]]])
-
 (defn children-grp
   "Takes as input a parent task and returns the list of list-items of children
   NESTED UNDER a div with id of parent"
@@ -86,9 +74,7 @@
       [:h4 (task :title)]
       [:div.description (task :description)]
       (if (> (count children) 0) (task-items children))
-      (new-task-line (inc (task :rank)) task)
-      ; (new-task-form (inc (task :rank)) task)
-      ]))
+      (new-task-line (inc (task :rank)) task)]))
 
 (defn tasks [data]
   (let [tasks    (data :tasks)
@@ -101,24 +87,24 @@
         [:div.row
           [:div.drag-wrapper
             ; rank 1
-            [:div.col-md-3
+            [:div#col-rank-1.col-md-3
               [:h4 "Tasks"]
               [:div#left1.list-group
                 (children-grp {:id nil, :rank 0, :collection_id coll-id} tasks)]]
             ; rank 2
-            [:div.col-md-3
+            [:div#col-rank-2.col-md-3
               [:div.list-group
                 (map
                   #(children-grp % tasks)
                   (filter #(= (% :rank) 1) tasks))]]
             ; rank 3
-            [:div.col-md-3
+            [:div#col-rank-3.col-md-3
               [:div.list-group
                 (map
                   #(children-grp % tasks)
                   (filter #(= (% :rank) 2) tasks))]]
             ; rank 4
-            [:div.col-md-3
+            [:div#col-rank-4.col-md-3
               [:div.list-group
                 (map
                   #(children-grp % tasks)
