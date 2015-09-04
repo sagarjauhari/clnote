@@ -55,18 +55,18 @@ $(document).ready(function() {
   }
 
   // Add a new task when the add button of the form is clicked
-  _.each($(".new-task-line input"), function(taskInput){
-    collId = $(taskInput).attr("collectionId");
+  newTaskOnEnterPress = function(taskInput) {
+    collId = taskInput.attr("collectionId");
     url = "/" + collId + "/tasks"
 
-    $(taskInput).keypress(function (e) {
+    taskInput.keypress(function (e) {
       if (e.which == 13) {
         $.post(
           url,
           {
-            title: $(taskInput).val(),
-            rank: $(taskInput).attr("rank"),
-            parentId: $(taskInput).attr("parentId")
+            title: taskInput.val(),
+            rank: taskInput.attr("rank"),
+            parentId: taskInput.attr("parentId")
           },
           function (data) {
             notifyInfo("New task added");
@@ -76,13 +76,17 @@ $(document).ready(function() {
             $taskBox = $(jsonData.taskItem);
             $childrenGrp = $(jsonData.childrenGrp);
 
-            // insert the new element
-            $taskBox.insertBefore($(taskInput).closest(".new-task-line"));
+            // insert the new task-box
+            $taskBox.insertBefore(taskInput.closest(".new-task-line"));
 
             // add its children-grp to the correct column
-            $("#col-rank-" + (parseInt($(taskInput).attr("rank")) + 1)).
+            $("#col-rank-" + (parseInt(taskInput.attr("rank")) + 1)).
               find(".list-group").
               append($childrenGrp);
+
+            // add new-task creation listeners to the children-grp's
+            // new task line
+            newTaskOnEnterPress($childrenGrp.find(".new-task-line input"));
 
             // register task completion listener
             checkBoxId = $taskBox.find(".task-checkbox").attr("id");
@@ -94,12 +98,18 @@ $(document).ready(function() {
         );
 
         // Clear the input
-        $(taskInput).val("");
+        taskInput.val("");
 
         return false; // important
       }
     });
+  };
+
+  // Add required callbacks to each new-task form
+  _.each($(".new-task-line input"), function(taskInput){
+    newTaskOnEnterPress($(taskInput));
   });
+  
 
   // Add task complete listener to each checkbox
   _.each($(".task-checkbox"), function(cb){
