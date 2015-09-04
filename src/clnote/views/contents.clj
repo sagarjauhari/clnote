@@ -41,10 +41,10 @@
     [:div {:taskId (task :id)
          :class (str "task-box " (if (task :completed) "completed-true"))}
         [:span.handle "+"]
-        (check-box
-          {:class "task-checkbox"}
-          "completed"
-          (task :completed) (task :id))
+        (check-box {:class "task-checkbox"}
+          (str "task-checkbox-" (task :id))
+          (task :completed)
+          (task :id))
         (str " ")
         (link-to {:class "task-title-link"} "#" (task :title))]])
 

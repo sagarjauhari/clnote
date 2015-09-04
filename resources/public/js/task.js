@@ -13,6 +13,28 @@ $(document).ready(function() {
     });
   };
   
+  // Toggle task completion if checkbox is clicked
+  var completeTaskOnClick = function(checkbox) {
+    checkbox.click(function(){
+      var url = "/tasks/" + checkbox.attr("value");
+
+      $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+          id: checkbox.attr("value"),
+          completed: checkbox.prop("checked")
+        },
+        success: function(result) {
+          // Change class
+          $(checkbox.closest("div.task-box")).toggleClass("completed-true");
+
+          // Notify
+          notifyInfo(result);
+        }
+      });
+    });
+  };
 
   // Add a new task when the add button of the form is clicked
   _.each($(".new-task-line input"), function(taskInput){
@@ -29,9 +51,16 @@ $(document).ready(function() {
             parentId: $(taskInput).attr("parentId")
           },
           function (data) {
+            $taskBox = $(data)
+
             notifyInfo("New task added");
 
-            $(data).insertBefore($(taskInput).closest(".new-task-line"));
+            // insert the new element
+            $taskBox.insertBefore($(taskInput).closest(".new-task-line"));
+
+            // register task completion listener
+            checkBoxId = $taskBox.find(".task-checkbox").attr("id");
+            completeTaskOnClick($("#" + checkBoxId));
           }
         );
 
@@ -43,26 +72,9 @@ $(document).ready(function() {
     });
   });
 
-  // Update task completion when its checkbox is clicked
+  // Add task complete listener to each checkbox
   _.each($(".task-checkbox"), function(cb){
-    cb.onclick = function(){
-      var url = "/tasks/" + cb.value
-      $.ajax({
-        url: url,
-        type: 'PUT',
-        data: {
-          id: cb.value,
-          completed: cb.checked
-        },
-        success: function(result) {
-          // Change class
-          $(cb.closest("div.task-box")).toggleClass("completed-true");
-
-          // Notify
-          notifyInfo(result);
-        }
-      });
-    };
+    completeTaskOnClick($(cb));
   });
 
   _.each($(".task-title-link"), function(link){
