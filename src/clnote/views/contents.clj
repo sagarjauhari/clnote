@@ -12,6 +12,14 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
+(defn live-search-box
+  "Filters the tasks based on what is typed in box"
+  []
+  [:div#live-search-box
+   (text-field {:placeholder "Search..."
+                :type "text"
+                :class "form-control"} "search")])
+
 (defn collection-picker [collections coll-id]
   [:div.btn-group
     [:button.btn.btn-success.dropdown-toggle
@@ -83,7 +91,11 @@
         coll-id  (data :coll-id)]
     [:div.panel
       [:div.panel-body
-        (collection-picker colls coll-id)
+        [:div.row
+         [:div.col-md-3
+          (collection-picker colls coll-id)]
+         [:div.col-md-3.col-md-offset-6.pull-right
+          (live-search-box)]]
         [:div.row
           [:div.drag-wrapper
             ; rank 1

@@ -140,4 +140,10 @@ $(document).ready(function() {
   };
 
   showFirstParentChildren();
+
+
+  // Add event listeners for the search box
+  $("#live-search-box input").keypress(function(e){
+    console.log($(this).val() + String.fromCharCode(e.which));
+  });
 });

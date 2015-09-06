@@ -68,7 +68,7 @@
         (select-keys flash [:title :description :completed :rank :errors])))))
 
 (defroutes app-routes
-  (GET "/" request (tasks-page request))
+  (GET "/" request (redirect "/0/tasks"))
   (DELETE "/" request (delete-task! request))
   (POST "/" request (create-task! request))
 
