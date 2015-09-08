@@ -12,35 +12,6 @@
     [:p "The requested page does not exist."]
     (link-to {:class "btn btn-primary"} "/tasks" "Take me to Home")])
 
-(defn live-search-box
-  "Filters the tasks based on what is typed in box"
-  []
-  [:div#live-search-box
-   (text-field {:placeholder "Search..."
-                :type "text"
-                :class "form-control"} "search")])
-
-(defn collection-picker [collections coll-id]
-  [:div.btn-group
-    [:button.btn.btn-success.dropdown-toggle
-      {:type "button"
-        :data-toggle "dropdown"
-        :aria-haspopup true
-        :aria-expanded false}
-      (if (> coll-id 0)
-        (str ((first (filter #(= (% :id) coll-id) collections)) :title) " ")
-        "All ")
-      [:span.caret]]
-    [:ul.dropdown-menu
-      (concat
-        (map
-          (fn [coll]
-            [:li (link-to (str "/" (coll :id) "/tasks") (coll :title))])
-          collections)
-        [[:li.divider{:role "separator"}]
-         ; id = 0 means return all tasks in all collections
-         [:li (link-to "/0/tasks" "All")]])]])
-
 (defn task-item
   "Given a task, create a task box for it.
    Also used by post request to append new item to existing list"
@@ -87,15 +58,9 @@
 (defn tasks [data]
   (let [tasks    (data :tasks)
         errors   (data :errors)
-        colls    (data :colls)
         coll-id  (data :coll-id)]
     [:div.panel
       [:div.panel-body
-        [:div.row
-         [:div.col-md-3
-          (collection-picker colls coll-id)]
-         [:div.col-md-3.col-md-offset-6.pull-right
-          (live-search-box)]]
         [:div.row
           [:div.drag-wrapper
             ; rank 1

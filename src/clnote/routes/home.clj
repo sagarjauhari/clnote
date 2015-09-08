@@ -56,6 +56,7 @@
 (defn tasks-page [coll-id flash]
   (layout/application
     "Tasks"
+    coll-id
     (contents/tasks
       (merge
         {:tasks
@@ -63,7 +64,6 @@
            (> coll-id 0)
            (db/get-tasks {:coll_id coll-id})
            (db/get-all-tasks))
-         :colls (db/get-collections)
          :coll-id coll-id}
         (select-keys flash [:title :description :completed :rank :errors])))))
 
@@ -80,4 +80,4 @@
 
   (ANY "*" []
     (route/not-found
-      (layout/application "Page Not Found" (contents/not-found)))))
+      (layout/application "Page Not Found" 0 (contents/not-found)))))

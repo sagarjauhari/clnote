@@ -1,7 +1,41 @@
 (ns clnote.views.layout
-  (:use [hiccup.page :only (html5 include-css include-js)]))
+  (:use [hiccup.page :only (html5 include-css include-js)]
+        [hiccup.element :only (link-to)]
+        [hiccup.form]
+        [clnote.db.core :as db]))
 
-(defn application [title & content]
+(defn collection-picker [coll-id]
+  (let [collections (db/get-collections)]
+    [:li.dropdown
+      [:a.dropdown-toggle
+        {:role "button"
+          :data-toggle "dropdown"
+          :aria-haspopup true
+          :aria-expanded false}
+        (if (> coll-id 0)
+          (str ((first (filter #(= (% :id) coll-id) collections)) :title) " ")
+          "All ")
+        [:span.caret]]
+      [:ul.dropdown-menu
+        (concat
+          (map
+            (fn [coll]
+              [:li (link-to (str "/" (coll :id) "/tasks") (coll :title))])
+            collections)
+          [[:li.divider{:role "separator"}]
+           ; id = 0 means return all tasks in all collections
+           [:li (link-to "/0/tasks" "All")]])]]))
+
+(defn live-search-box
+  "Filters the tasks based on what is typed in box"
+  []
+  [:form.navbar-form.navbar-left{:role "Search"}
+    [:div#live-search-box
+     (text-field {:placeholder "Search tasks"
+                  :type "text"
+                  :class "form-control"} "search")]])
+
+(defn application [title coll-id & content]
   (html5 {:lang "en"}
     [:head
       [:meta
@@ -22,12 +56,12 @@
       (include-js "/vendor/js/bootstrap-notify.min.js")]
 
       [:body
-        [:div {:class "navbar navbar-default navbar-fixed-top"}  
-         [:div {:class "container"}  
-          [:div {:class "navbar-header"}  
-           [:a {:class "navbar-brand", :href "/0/tasks"} "CLNote"]]
-          [:div {:class "navbar-collapse collapse "}  
-           [:ul {:class "nav navbar-nav"}  
-            [:li
-             [:a {:href "/0/tasks"} "Tasks"]]]]]]
-           [:div {:class "container"} content]]))
+        [:div.navbar.navbar-default.navbar-fixed-top
+         [:div.container
+          [:div.navbar-header
+           [:a.navbar-brand {:href "/0/tasks"} "CLNote"]]
+          [:div.navbar-collapse.collapse
+           [:ul.nav.navbar-nav
+             (collection-picker coll-id)
+             (live-search-box)]]]]
+           [:div.container content]]))
