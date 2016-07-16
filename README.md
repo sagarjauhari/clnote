@@ -21,7 +21,7 @@ A task manager built with clojure
 
 ![](assets/images/clnote_done.gif)
 
-** View all tasks together**
+**View all tasks together**
 
 ![](assets/images/clnote_all.gif)
 
