@@ -1,6 +1,9 @@
 # clnote
 A task manager built with clojure
 
+**Create tasks**
+![](assets/images/clnote_create.gif)
+
 ## Prerequisites
 
 You will need [Leiningen][1] 2.0 or above installed.
