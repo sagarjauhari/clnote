@@ -2,7 +2,28 @@
 A task manager built with clojure
 
 **Create tasks**
+
 ![](assets/images/clnote_create.gif)
+
+**Add tasks to different collections**
+
+![](assets/images/clnote_clojure.gif)
+
+**Create nested tasks**
+
+![](assets/images/clnote_nest.gif)
+
+**Drag tasks from one level to another**
+
+![](assets/images/clnote_drag.gif)
+
+**Mark tasks as completed**
+
+![](assets/images/clnote_done.gif)
+
+** View all tasks together**
+
+![](assets/images/clnote_all.gif)
 
 ## Prerequisites
 
